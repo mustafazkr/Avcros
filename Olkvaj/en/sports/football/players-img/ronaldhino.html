@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ronaldinho — Player Profile</title>
+  <style>
+    :root {
+      --black: #000000;
+      --border-dark: #262626;
+      --muted-on-dark: #a3a3a3;
+      --white: #ffffff;
+      --text: #111111;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --surface: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ---------- Header ---------- */
+    header {
+      background: var(--black);
+      border-bottom: 1px solid var(--border-dark);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+      color: var(--white);
+    }
+
+    nav a {
+      color: var(--muted-on-dark);
+      text-decoration: none;
+      margin-left: 1.25rem;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--white);
+    }
+
+    /* ---------- Main ---------- */
+    main {
+      flex: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      background: var(--white);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-image {
+      flex-shrink: 0;
+      width: 140px;
+      height: 140px;
+      border-radius: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-fullname {
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .hero-retired {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    /* ---------- Tabs ---------- */
+    .tab-bar-wrap {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      border-radius: 999px;
+      transition: color 0.2s ease, background 0.2s ease,
+                  border-color 0.2s ease;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+      border-color: #c9c9c9;
+      background: var(--surface);
+    }
+
+    .tab-btn.active {
+      color: var(--white);
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .tab-btn:focus {
+      outline: none;
+    }
+
+    .tab-btn:focus-visible {
+      outline: 2px solid var(--black);
+      outline-offset: 2px;
+    }
+
+    /* ---------- Tab panels ---------- */
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    p {
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+
+    /* ---------- Overview layout ---------- */
+    .overview-layout {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    /* ---------- Left column (stats + view more) ---------- */
+    .overview-side {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---------- Stats container ---------- */
+    .stats-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-row .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-row .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    /* View more link */
+    .view-more-link {
+      display: inline-block;
+      margin-top: 0.6rem;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: underline;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .view-more-link:hover {
+      color: var(--text);
+    }
+
+    /* Extra stats panel */
+    .extra-stats {
+      margin-top: 0.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+    }
+
+    .extra-stats[hidden] {
+      display: none;
+    }
+
+    .extra-title {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .extra-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+
+    .extra-row:last-child {
+      border-bottom: none;
+    }
+
+    .extra-row .label {
+      color: var(--text);
+    }
+
+    .extra-row .value {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Divider title for positions */
+    .extra-subtitle {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin: 0.6rem 0 0.4rem;
+    }
+
+    .extra-subtitle:first-of-type {
+      margin-top: 0;
+    }
+
+    .overview-body {
+      min-width: 0;
+    }
+
+    /* ---------- Trophies section ---------- */
+    .trophies-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .trophies-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      overflow: visible;
+    }
+
+    .trophies-table th,
+    .trophies-table td {
+      padding: 0.7rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .trophies-table th {
+      background: var(--black);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .trophies-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .trophies-table tbody tr:nth-child(even) {
+      background: var(--surface);
+    }
+
+    .trophies-table tbody tr:hover {
+      background: #f3f4f6;
+    }
+
+    .trophies-table td.count {
+      text-align: center;
+      font-weight: 700;
+      width: 90px;
+    }
+
+    .trophies-table tfoot td {
+      background: var(--surface);
+      font-weight: 700;
+      border-top: 2px solid var(--black);
+      border-bottom: none;
+    }
+
+    .trophies-table tfoot td:first-child {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Tooltip on trophy name */
+    .trophy-name {
+      position: relative;
+      cursor: default;
+      border-bottom: 1px dotted var(--muted);
+    }
+
+    .trophy-name::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 0;
+      bottom: calc(100% + 8px);
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 1.4;
+      padding: 0.5rem 0.7rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 30;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .trophy-name:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- Career tables ---------- */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      overflow: visible;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--black);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--surface);
+    }
+
+    tbody tr:hover {
+      background: #f3f4f6;
+    }
+
+    td.num {
+      text-align: center;
+    }
+
+    /* ---------- Club cell ---------- */
+    .club-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .club-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .club-logo-fallback {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border-dark);
+      padding: 2rem 1.5rem;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--muted-on-dark);
+      font-size: 0.85rem;
+    }
+
+    .footer-inner a {
+      color: var(--muted-on-dark);
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+
+    .footer-inner a:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 700px) {
+      .overview-layout {
+        grid-template-columns: 1fr;
+      }
+      .stats-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .stat-row {
+        flex: 1 1 22%;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+      }
+      .stat-row:last-child {
+        border-right: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-image {
+        width: 110px;
+        height: 110px;
+      }
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+      .tab-bar {
+        gap: 0.4rem;
+      }
+      .tab-btn {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+      }
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-inner a {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">FOOTBALL DB</div>
+      <nav>
+        <a href="#">Players</a>
+        <a href="#">Teams</a>
+        <a href="#">Competitions</a>
+        <a href="#">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-image">
+        <!-- Replace with: <img src="ronaldinho.png" alt="Ronaldinho" /> -->
+        N/A
+      </div>
+      <div class="hero-text">
+        <div class="hero-fullname">Ronaldo de Assis Moreira</div>
+        <h1>Ronaldinho</h1>
+        <p class="hero-retired">Retired 2015</p>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar-wrap">
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="senior">Senior Career</button>
+        <button class="tab-btn" data-tab="youth">Youth Career</button>
+        <button class="tab-btn" data-tab="background">Background</button>
+      </div>
+    </div>
+
+    <!-- ========== TAB 1: OVERVIEW ========== -->
+    <div class="tab-panel active" id="tab-overview">
+      <div class="overview-layout">
+
+        <!-- Left column: stats + view more -->
+        <aside class="overview-side">
+
+          <div class="stats-container">
+            <div class="stat-row">
+              <div class="stat-value">784</div>
+              <div class="stat-label">Appearances</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-value">266</div>
+              <div class="stat-label">Goals</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-value">196</div>
+              <div class="stat-label">Assists</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-value">82</div>
+              <div class="stat-label">Bookings</div>
+            </div>
+          </div>
+
+          <!-- View More link -->
+          <button class="view-more-link" id="view-more-btn" type="button" aria-expanded="false" aria-controls="extra-stats">
+            View More
+          </button>
+
+          <!-- Extra stats panel (hidden by default) -->
+          <div class="extra-stats" id="extra-stats" hidden>
+
+            <div class="extra-subtitle">Playable Positions</div>
+            <div class="extra-row">
+              <span class="label">Attacking Midfielder</span>
+            </div>
+            <div class="extra-row">
+              <span class="label">Left Winger</span>
+            </div>
+            <div class="extra-row">
+              <span class="label">Second Striker</span>
+            </div>
+
+            <div class="extra-subtitle">Average Rating</div>
+            <div class="extra-row">
+              <span class="label">Per Game</span>
+              <span class="value">8.1</span>
+            </div>
+
+          </div>
+
+        </aside>
+
+        <!-- Overview body -->
+        <div class="overview-body">
+          <p>
+            Ronaldinho is a former Brazilian professional footballer widely regarded
+            as one of the most naturally gifted and entertaining players in the history
+            of the sport. Known for his dribbling, creativity, flair, and free-kick
+            ability, he won the Ballon d'Or in 2005 and was a central figure in Brazil's
+            2002 World Cup triumph.
+          </p>
+
+          <!-- Career trophies -->
+          <div class="trophies-title">Career Trophies</div>
+          <table class="trophies-table">
+            <thead>
+              <tr>
+                <th>Competition</th>
+                <th class="count">Titles</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Brazil · 2002">
+                    FIFA World Cup
+                  </span>
+                </td>
+                <td class="count">1</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Brazil · 1999">
+                    Copa América
+                  </span>
+                </td>
+                <td class="count">1</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Barcelona · 2006">
+                    UEFA Champions League
+                  </span>
+                </td>
+                <td class="count">1</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Barcelona · 2005, 2006">
+                    La Liga
+                  </span>
+                </td>
+                <td class="count">2</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="AC Milan · 2011">
+                    Serie A
+                  </span>
+                </td>
+                <td class="count">1</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Atlético Mineiro · 2013">
+                    Copa Libertadores
+                  </span>
+                </td>
+                <td class="count">1</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Individual · 2005">
+                    Ballon d'Or
+                  </span>
+                </td>
+                <td class="count">1</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="trophy-name" data-tooltip="Individual · 2004, 2005">
+                    FIFA World Player of the Year
+                  </span>
+                </td>
+                <td class="count">2</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Total</td>
+                <td class="count">10</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== TAB 2: SENIOR CAREER ========== -->
+    <div class="tab-panel" id="tab-senior">
+      <p>
+        Ronaldinho rose to prominence at Grêmio before moving to Europe with Paris
+        Saint-Germain in 2001. His performances there earned him a transfer to Barcelona
+        in 2003, where he became a global icon, winning two La Liga titles and the 2006
+        UEFA Champions League. He later played for AC Milan, Flamengo, Atlético Mineiro,
+        and Querétaro before retiring in 2015.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Club</th>
+            <th>Period</th>
+            <th class="num">Apps</th>
+            <th class="num">Goals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/gremio.png"
+                     alt="Grêmio"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'GR'}))" />
+                <span>Grêmio</span>
+              </div>
+            </td>
+            <td>1998 – 2001</td>
+            <td class="num">72</td>
+            <td class="num">26</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/psg.png"
+                     alt="Paris Saint-Germain"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'PSG'}))" />
+                <span>Paris Saint-Germain</span>
+              </div>
+            </td>
+            <td>2001 – 2003</td>
+            <td class="num">77</td>
+            <td class="num">25</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/barcelona.png"
+                     alt="Barcelona"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'FCB'}))" />
+                <span>Barcelona</span>
+              </div>
+            </td>
+            <td>2003 – 2008</td>
+            <td class="num">207</td>
+            <td class="num">94</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/ac-milan.png"
+                     alt="AC Milan"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'ACM'}))" />
+                <span>AC Milan</span>
+              </div>
+            </td>
+            <td>2008 – 2011</td>
+            <td class="num">95</td>
+            <td class="num">26</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/flamengo.png"
+                     alt="Flamengo"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'FLA'}))" />
+                <span>Flamengo</span>
+              </div>
+            </td>
+            <td>2011 – 2012</td>
+            <td class="num">56</td>
+            <td class="num">23</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/atletico-mineiro.png"
+                     alt="Atlético Mineiro"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'CAM'}))" />
+                <span>Atlético Mineiro</span>
+              </div>
+            </td>
+            <td>2012 – 2014</td>
+            <td class="num">88</td>
+            <td class="num">28</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/queretaro.png"
+                     alt="Querétaro"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'QRO'}))" />
+                <span>Querétaro</span>
+              </div>
+            </td>
+            <td>2014 – 2015</td>
+            <td class="num">27</td>
+            <td class="num">8</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ========== TAB 3: YOUTH CAREER ========== -->
+    <div class="tab-panel" id="tab-youth">
+      <p>
+        Ronaldinho grew up in Porto Alegre and honed his skills in futsal and street
+        football before joining Grêmio's youth academy. His brother and agent, Roberto
+        Assis, was also a professional footballer and played a key role in shaping his
+        early career. Ronaldinho's performances at youth level and in the 1997 U-17
+        World Cup marked him as one of Brazil's most exciting young talents.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Club</th>
+            <th>Period</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="club-cell">
+                <img src="../clubs/gremio-youth.png"
+                     alt="Grêmio Youth"
+                     class="club-logo"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-logo-fallback',textContent:'GR'}))" />
+                <span>Grêmio Youth</span>
+              </div>
+            </td>
+            <td>1991 – 1998</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ========== TAB 4: BACKGROUND ========== -->
+    <div class="tab-panel" id="tab-background">
+      <p>
+        Ronaldinho was born Ronaldo de Assis Moreira on 21 March 1980 in Porto Alegre,
+        Brazil. He grew up in a working-class neighbourhood and lost his father at a
+        young age. His older brother Roberto Assis, a professional footballer, became
+        his mentor and later his agent, guiding his rise through the Brazilian youth
+        system and eventually to Europe.
+      </p>
+      <p>
+        Off the pitch, Ronaldinho is known for his infectious smile and joyful style of
+        play, which made him one of the most beloved footballers of his era. Since
+        retiring in 2015, he has worked as a club ambassador, appeared in promotional
+        campaigns, and remained a global icon of the sport. He was named FIFA World
+        Player of the Year twice and won the Ballon d'Or in 2005.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="footer-inner">
+      <div>© 2026 Football DB · Data for informational purposes only.</div>
+      <div>
+        <a href="#">Licensing</a>
+        <a href="#">Sources</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= TAB SCRIPT ================= -->
+  <script>
+    const buttons = document.querySelectorAll(".tab-btn");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.tab;
+
+        buttons.forEach((b) => b.classList.remove("active"));
+        panels.forEach((p) => p.classList.remove("active"));
+
+        btn.classList.add("active");
+        document.getElementById("tab-" + target).classList.add("active");
+      });
+    });
+
+    // View More toggle
+    const viewMoreBtn = document.getElementById("view-more-btn");
+    const extraStats = document.getElementById("extra-stats");
+
+    viewMoreBtn.addEventListener("click", () => {
+      const isHidden = extraStats.hidden;
+      extraStats.hidden = !isHidden;
+      viewMoreBtn.setAttribute("aria-expanded", String(isHidden));
+      viewMoreBtn.textContent = isHidden ? "View Less" : "View More";
+    });
+  </script>
+
+</body>
+</html>

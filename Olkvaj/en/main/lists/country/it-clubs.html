@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Italian Clubs — Serie A | Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --hover-bg: #f5f5f5;
+      --warning-red: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav { display: flex; gap: 32px; }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions { display: flex; align-items: center; gap: 24px; }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* BACK BUTTON */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 0px;
+      margin-bottom: 32px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    /* MAIN */
+    main { flex: 1; padding: 60px 0 80px; }
+
+    .page-wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* PAGE HEADER */
+    .page-header { margin-bottom: 32px; }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* SEARCH */
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 220px;
+      max-width: 420px;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within { border-color: var(--btn-black); }
+
+    .search-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      min-width: 0;
+    }
+
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .search-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    /* CLUBS GRID */
+    .clubs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .club-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.25rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      text-decoration: none;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, transform 0.1s ease;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+    }
+
+    .club-badge:hover { border-color: var(--text-main); }
+    .club-badge:active { transform: scale(0.98); }
+
+    .club-badge-logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-fallback {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      background: var(--surface);
+      border: 1px dashed var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    /* LAST UPDATED */
+    .last-updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      font-style: italic;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 0;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.2s;
+    }
+
+    .footer-inner a:hover { color: var(--text-main); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .clubs-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 800px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .page-header h1 { font-size: 1.75rem; }
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-inner a { margin-left: 0; margin-right: 16px; }
+      .search-box { max-width: 100%; }
+      .search-count { width: 100%; text-align: right; }
+    }
+
+    @media (max-width: 500px) {
+      .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="../../../../main/index.html">Home</a>
+        <a href="#">About</a>
+        <a href="../../../../main/settings.html">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../../../football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-wrap">
+
+        <!-- BACK BUTTON -->
+        <a href="index.html" class="btn-back">← Back to Clubs</a>
+
+        <div class="page-header">
+          <h1>Italian Clubs</h1>
+          <p>50 clubs from across Italian football — Serie A, Serie B, and historic sides from every region.</p>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-wrap">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" id="club-search"
+                   placeholder="Search Italian clubs..." autocomplete="off"
+                   aria-label="Search Italian clubs" />
+          </div>
+          <div class="search-count" id="search-count">
+            Showing 50 of 50 clubs
+          </div>
+        </div>
+
+        <!-- CLUBS GRID -->
+        <div class="clubs-grid" id="clubs-grid">
+
+          <a href="../../../sports/football/profiles/clubs/atalanta.html"
+             class="club-badge" data-club="Atalanta, Atalanta BC">
+            <img src="../../../sports/football/clubs-img/atalanta.png" alt="Atalanta" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ATA'}))" />
+            <div class="club-badge-name">Atalanta</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/bari.html"
+             class="club-badge" data-club="Bari, SSC Bari">
+            <img src="../../../sports/football/clubs-img/bari.png" alt="Bari" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BAR'}))" />
+            <div class="club-badge-name">Bari</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/benevento.html"
+             class="club-badge" data-club="Benevento, Benevento Calcio">
+            <img src="../../../sports/football/clubs-img/benevento.png" alt="Benevento" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BEN'}))" />
+            <div class="club-badge-name">Benevento</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/bologna.html"
+             class="club-badge" data-club="Bologna, Bologna FC">
+            <img src="../../../sports/football/clubs-img/bologna.png" alt="Bologna" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BOL'}))" />
+            <div class="club-badge-name">Bologna</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/brescia.html"
+             class="club-badge" data-club="Brescia, Brescia Calcio">
+            <img src="../../../sports/football/clubs-img/brescia.png" alt="Brescia" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BRE'}))" />
+            <div class="club-badge-name">Brescia</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cagliari.html"
+             class="club-badge" data-club="Cagliari, Cagliari Calcio">
+            <img src="../../../sports/football/clubs-img/cagliari.png" alt="Cagliari" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CAG'}))" />
+            <div class="club-badge-name">Cagliari</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/catania.html"
+             class="club-badge" data-club="Catania, Catania FC">
+            <img src="../../../sports/football/clubs-img/catania.png" alt="Catania" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CAT'}))" />
+            <div class="club-badge-name">Catania</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/como.html"
+             class="club-badge" data-club="Como, Como 1907">
+            <img src="../../../sports/football/clubs-img/como.png" alt="Como" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'COM'}))" />
+            <div class="club-badge-name">Como</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cremonese.html"
+             class="club-badge" data-club="Cremonese, US Cremonese">
+            <img src="../../../sports/football/clubs-img/cremonese.png" alt="Cremonese" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CRE'}))" />
+            <div class="club-badge-name">Cremonese</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/empoli.html"
+             class="club-badge" data-club="Empoli, Empoli FC">
+            <img src="../../../sports/football/clubs-img/empoli.png" alt="Empoli" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'EMP'}))" />
+            <div class="club-badge-name">Empoli</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/fiorentina.html"
+             class="club-badge" data-club="Fiorentina, ACF Fiorentina">
+            <img src="../../../sports/football/clubs-img/fiorentina.png" alt="Fiorentina" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'FIO'}))" />
+            <div class="club-badge-name">Fiorentina</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/frosinone.html"
+             class="club-badge" data-club="Frosinone, Frosinone Calcio">
+            <img src="../../../sports/football/clubs-img/frosinone.png" alt="Frosinone" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'FRO'}))" />
+            <div class="club-badge-name">Frosinone</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/genoa.html"
+             class="club-badge" data-club="Genoa, Genoa CFC">
+            <img src="../../../sports/football/clubs-img/genoa.png" alt="Genoa" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'GEN'}))" />
+            <div class="club-badge-name">Genoa</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/hellas-verona.html"
+             class="club-badge" data-club="Hellas Verona, Verona">
+            <img src="../../../sports/football/clubs-img/hellas-verona.png" alt="Hellas Verona" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'VER'}))" />
+            <div class="club-badge-name">Hellas Verona</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/inter-milan.html"
+             class="club-badge" data-club="Inter Milan, Inter, Internazionale">
+            <img src="../../../sports/football/clubs-img/inter-milan.png" alt="Inter Milan" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'INT'}))" />
+            <div class="club-badge-name">Inter Milan</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/juventus.html"
+             class="club-badge" data-club="Juventus, Juve">
+            <img src="../../../sports/football/clubs-img/juventus.png" alt="Juventus" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'JUV'}))" />
+            <div class="club-badge-name">Juventus</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/lazio.html"
+             class="club-badge" data-club="Lazio, SS Lazio">
+            <img src="../../../sports/football/clubs-img/lazio.png" alt="Lazio" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LAZ'}))" />
+            <div class="club-badge-name">Lazio</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/lecce.html"
+             class="club-badge" data-club="Lecce, US Lecce">
+            <img src="../../../sports/football/clubs-img/lecce.png" alt="Lecce" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LEC'}))" />
+            <div class="club-badge-name">Lecce</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/ac-milan.html"
+             class="club-badge" data-club="AC Milan, Milan">
+            <img src="../../../sports/football/clubs-img/ac-milan.png" alt="AC Milan" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MIL'}))" />
+            <div class="club-badge-name">AC Milan</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/modena.html"
+             class="club-badge" data-club="Modena, Modena FC">
+            <img src="../../../sports/football/clubs-img/modena.png" alt="Modena" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MOD'}))" />
+            <div class="club-badge-name">Modena</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/monza.html"
+             class="club-badge" data-club="Monza, AC Monza">
+            <img src="../../../sports/football/clubs-img/monza.png" alt="Monza" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MON'}))" />
+            <div class="club-badge-name">Monza</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/napoli.html"
+             class="club-badge" data-club="Napoli, SSC Napoli">
+            <img src="../../../sports/football/clubs-img/napoli.png" alt="Napoli" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NAP'}))" />
+            <div class="club-badge-name">Napoli</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/palermo.html"
+             class="club-badge" data-club="Palermo, Palermo FC">
+            <img src="../../../sports/football/clubs-img/palermo.png" alt="Palermo" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PAL'}))" />
+            <div class="club-badge-name">Palermo</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/parma.html"
+             class="club-badge" data-club="Parma, Parma Calcio">
+            <img src="../../../sports/football/clubs-img/parma.png" alt="Parma" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PAR'}))" />
+            <div class="club-badge-name">Parma</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/perugia.html"
+             class="club-badge" data-club="Perugia, AC Perugia">
+            <img src="../../../sports/football/clubs-img/perugia.png" alt="Perugia" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PER'}))" />
+            <div class="club-badge-name">Perugia</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/pescara.html"
+             class="club-badge" data-club="Pescara, Delfino Pescara">
+            <img src="../../../sports/football/clubs-img/pescara.png" alt="Pescara" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PES'}))" />
+            <div class="club-badge-name">Pescara</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/pisa.html"
+             class="club-badge" data-club="Pisa, Pisa SC">
+            <img src="../../../sports/football/clubs-img/pisa.png" alt="Pisa" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PIS'}))" />
+            <div class="club-badge-name">Pisa</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/reggina.html"
+             class="club-badge" data-club="Reggina, Reggina 1914">
+            <img src="../../../sports/football/clubs-img/reggina.png" alt="Reggina" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'REG'}))" />
+            <div class="club-badge-name">Reggina</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/roma.html"
+             class="club-badge" data-club="Roma, AS Roma">
+            <img src="../../../sports/football/clubs-img/roma.png" alt="Roma" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ROM'}))" />
+            <div class="club-badge-name">Roma</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/salernitana.html"
+             class="club-badge" data-club="Salernitana, US Salernitana">
+            <img src="../../../sports/football/clubs-img/salernitana.png" alt="Salernitana" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SAL'}))" />
+            <div class="club-badge-name">Salernitana</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/sampdoria.html"
+             class="club-badge" data-club="Sampdoria, UC Sampdoria">
+            <img src="../../../sports/football/clubs-img/sampdoria.png" alt="Sampdoria" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SAM'}))" />
+            <div class="club-badge-name">Sampdoria</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/sassuolo.html"
+             class="club-badge" data-club="Sassuolo, US Sassuolo">
+            <img src="../../../sports/football/clubs-img/sassuolo.png" alt="Sassuolo" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SAS'}))" />
+            <div class="club-badge-name">Sassuolo</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/spezia.html"
+             class="club-badge" data-club="Spezia, Spezia Calcio">
+            <img src="../../../sports/football/clubs-img/spezia.png" alt="Spezia" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SPE'}))" />
+            <div class="club-badge-name">Spezia</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/torino.html"
+             class="club-badge" data-club="Torino, Torino FC">
+            <img src="../../../sports/football/clubs-img/torino.png" alt="Torino" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'TOR'}))" />
+            <div class="club-badge-name">Torino</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/triestina.html"
+             class="club-badge" data-club="Triestina, US Triestina">
+            <img src="../../../sports/football/clubs-img/triestina.png" alt="Triestina" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'TRI'}))" />
+            <div class="club-badge-name">Triestina</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/udinese.html"
+             class="club-badge" data-club="Udinese, Udinese Calcio">
+            <img src="../../../sports/football/clubs-img/udinese.png" alt="Udinese" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'UDI'}))" />
+            <div class="club-badge-name">Udinese</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/venezia.html"
+             class="club-badge" data-club="Venezia, Venezia FC">
+            <img src="../../../sports/football/clubs-img/venezia.png" alt="Venezia" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'VEN'}))" />
+            <div class="club-badge-name">Venezia</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/vicenza.html"
+             class="club-badge" data-club="Vicenza, LR Vicenza">
+            <img src="../../../sports/football/clubs-img/vicenza.png" alt="Vicenza" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'VIC'}))" />
+            <div class="club-badge-name">Vicenza</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/padova.html"
+             class="club-badge" data-club="Padova, Calcio Padova">
+            <img src="../../../sports/football/clubs-img/padova.png" alt="Padova" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PAD'}))" />
+            <div class="club-badge-name">Padova</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/piacenza.html"
+             class="club-badge" data-club="Piacenza, Piacenza Calcio">
+            <img src="../../../sports/football/clubs-img/piacenza.png" alt="Piacenza" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PIA'}))" />
+            <div class="club-badge-name">Piacenza</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/ternana.html"
+             class="club-badge" data-club="Ternana, Ternana Calcio">
+            <img src="../../../sports/football/clubs-img/ternana.png" alt="Ternana" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'TER'}))" />
+            <div class="club-badge-name">Ternana</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/chievo.html"
+             class="club-badge" data-club="Chievo, Chievo Verona">
+            <img src="../../../sports/football/clubs-img/chievo.png" alt="Chievo" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CHI'}))" />
+            <div class="club-badge-name">Chievo</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/livorno.html"
+             class="club-badge" data-club="Livorno, AS Livorno">
+            <img src="../../../sports/football/clubs-img/livorno.png" alt="Livorno" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LIV'}))" />
+            <div class="club-badge-name">Livorno</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/novara.html"
+             class="club-badge" data-club="Novara, Novara Calcio">
+            <img src="../../../sports/football/clubs-img/novara.png" alt="Novara" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NOV'}))" />
+            <div class="club-badge-name">Novara</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/ascoli.html"
+             class="club-badge" data-club="Ascoli, Ascoli Calcio">
+            <img src="../../../sports/football/clubs-img/ascoli.png" alt="Ascoli" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ASC'}))" />
+            <div class="club-badge-name">Ascoli</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cittadella.html"
+             class="club-badge" data-club="Cittadella, AS Cittadella">
+            <img src="../../../sports/football/clubs-img/cittadella.png" alt="Cittadella" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CIT'}))" />
+            <div class="club-badge-name">Cittadella</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cosenza.html"
+             class="club-badge" data-club="Cosenza, Cosenza Calcio">
+            <img src="../../../sports/football/clubs-img/cosenza.png" alt="Cosenza" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'COS'}))" />
+            <div class="club-badge-name">Cosenza</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/crotone.html"
+             class="club-badge" data-club="Crotone, FC Crotone">
+            <img src="../../../sports/football/clubs-img/crotone.png" alt="Crotone" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CRO'}))" />
+            <div class="club-badge-name">Crotone</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/lecco.html"
+             class="club-badge" data-club="Lecco, Calcio Lecco">
+            <img src="../../../sports/football/clubs-img/lecco.png" alt="Lecco" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LEC'}))" />
+            <div class="club-badge-name">Lecco</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/taranto.html"
+             class="club-badge" data-club="Taranto, Taranto FC">
+            <img src="../../../sports/football/clubs-img/taranto.png" alt="Taranto" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'TAR'}))" />
+            <div class="club-badge-name">Taranto</div>
+          </a>
+
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          No clubs match your search.
+        </div>
+
+        <div class="last-updated">Last updated: September 2026</div>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="container">
+    <footer>
+      <div class="footer-inner">
+        <div>© 2026 Olkvaj · Data for informational purposes only.</div>
+        <div>
+          <a href="../../../../main/privacy.html">Privacy</a>
+          <a href="../../../../main/cookies.html">Cookies</a>
+          <a href="../../../../main/terms.html">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("club-search");
+    const grid = document.getElementById("clubs-grid");
+    const count = document.getElementById("search-count");
+    const emptyState = document.getElementById("empty-state");
+
+    if (searchInput && grid) {
+      const cards = Array.from(grid.querySelectorAll(".club-badge"));
+      const total = cards.length;
+
+      function updateCount(visible) {
+        if (count) {
+          count.textContent =
+            visible === total
+              ? `Showing ${total} of ${total} clubs`
+              : `Showing ${visible} of ${total} clubs`;
+        }
+        if (emptyState) {
+          emptyState.hidden = visible !== 0;
+        }
+      }
+
+      const strip = (s) =>
+        s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+      updateCount(total);
+
+      searchInput.addEventListener("input", () => {
+        const q = strip(searchInput.value.trim());
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const name = strip(card.dataset.club || "");
+          const match = q === "" || name.includes(q);
+          card.style.display = match ? "" : "none";
+          if (match) visible++;
+        });
+
+        updateCount(visible);
+      });
+    }
+  </script>
+
+</body>
+</html>

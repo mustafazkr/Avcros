@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olkvaj — Every Player. Every Sport.</title>
+
+  <!-- Favicon: light mode → dark favicon | dark mode → light favicon -->
+  <link rel="icon" href="../images/branding/olkvaj-dark.png"
+        media="(prefers-color-scheme: light)">
+  <link rel="icon" href="../images/branding/olkvaj-light.png"
+        media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="../images/branding/olkvaj-dark.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --hover-bg: #f5f5f5;
+      --warning-red: #dc2626;
+
+      --light-bg: #ffffff;
+      --light-text: #111111;
+      --light-muted: #6b7280;
+      --light-border: #e5e7eb;
+      --light-surface: #f9fafb;
+
+      --footer-bg: #f5f5f5;
+      --footer-bottom-border: #e0e0e0;
+      --footer-label: #9ca3af;
+      --placeholder-color: #9ca3af;
+      --mockup-gradient: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      --flag-border: #000000;
+      --dropdown-active-bg: #f5f5f5;
+    }
+
+    /* Dark theme — driven by the OS/browser preference so the site theme
+       and the favicon (both keyed on prefers-color-scheme) stay in sync. */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0a0a0a;
+        --surface: #141414;
+        --text-main: #f5f5f5;
+        --text-muted: #8a8a8a;
+        --border-color: #262626;
+        --btn-black: #ffffff;
+        --btn-white: #1a1a1a;
+        --hover-bg: #1f1f1f;
+        --warning-red: #f87171;
+
+        --light-bg: #141414;
+        --light-text: #f5f5f5;
+        --light-muted: #8a8a8a;
+        --light-border: #262626;
+        --light-surface: #1a1a1a;
+
+        --footer-bg: #0f0f0f;
+        --footer-bottom-border: #262626;
+        --footer-label: #6b7280;
+        --placeholder-color: #6b7280;
+        --mockup-gradient: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        --flag-border: #f5f5f5;
+        --dropdown-active-bg: #1f1f1f;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    /* --- LAYOUT CONTAINER --- */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    /* --- HEADER --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+      gap: 32px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      min-width: 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* --- BUTTONS --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .btn-secondary:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      padding: 80px 0;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+
+    .hero h1 .accent { color: var(--text-main); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+
+    .trust-logos {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      opacity: 0.5;
+      filter: grayscale(100%);
+      flex-wrap: wrap;
+    }
+
+    .trust-logos span {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Hero Visual Mockup */
+    .hero-visual {
+      position: relative;
+      height: 480px;
+      perspective: 1000px;
+    }
+
+    .mockup-card {
+      position: absolute;
+      background: var(--btn-white);
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .mockup-main {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      right: -30px;
+      transform: rotateY(-15deg) rotateX(5deg);
+      padding: 24px;
+      background: var(--mockup-gradient);
+    }
+
+    .mockup-dropdown {
+      position: absolute;
+      top: 120px;
+      left: -20px;
+      width: 220px;
+      background: var(--btn-white);
+      border-radius: 0px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      transform: translateZ(50px);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-radius: 0px;
+    }
+
+    .dropdown-item.active {
+      background: var(--dropdown-active-bg);
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* --- SEARCH SECTION --- */
+    .search-section {
+      padding: 60px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-inner {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .search-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--btn-white);
+      border: 1px solid var(--border-color);
+      border-radius: 0px;
+      padding: 14px 24px;
+      width: 100%;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+
+    .search-box:focus-within {
+      border-color: var(--btn-black);
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: var(--text-main);
+      font-size: 1rem;
+      font-family: inherit;
+      min-width: 0;
+    }
+
+    .search-input::placeholder { color: var(--placeholder-color); }
+
+    .search-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    /* ========================================================= */
+    /* ==== EXISTING SECTIONS (Football) ======================= */
+    /* ========================================================= */
+
+    .clubs-section {
+      position: relative;
+      z-index: 2;
+      background: var(--light-bg);
+      color: var(--light-text);
+      padding: 3.5rem 2rem 4rem;
+      border-radius: 0;
+      margin-top: 0;
+      border-top: 1px solid var(--light-border);
+    }
+
+    .clubs-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .clubs-header { margin-bottom: 2rem; }
+
+    .clubs-header h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--light-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .clubs-header p {
+      color: var(--light-muted);
+      font-size: 0.9rem;
+      max-width: 520px;
+    }
+
+    .clubs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .club-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.25rem 0.75rem;
+      background: var(--light-bg);
+      border: 1px solid var(--light-border);
+      text-decoration: none;
+      color: var(--light-text);
+      transition: border-color 0.2s ease, transform 0.1s ease;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+    }
+
+    .club-badge:hover { border-color: var(--light-text); }
+    .club-badge:active { transform: scale(0.98); }
+
+    .club-badge-logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-fallback {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-surface);
+      border: 1px solid var(--light-border);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--light-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--light-text);
+      line-height: 1.2;
+    }
+
+    .flag-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.15rem;
+    }
+
+    .club-badge-flag {
+      width: 18px;
+      height: 12px;
+      object-fit: cover;
+      display: block;
+      border: 1px solid var(--flag-border);
+      border-radius: 1px;
+    }
+
+    .flag-wrap .flag-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) translateY(3px);
+      background: var(--light-text);
+      color: var(--light-bg);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+
+    .flag-wrap:hover .flag-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .more-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .btn-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      border: 1px solid var(--light-border);
+      color: var(--light-text);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.6rem 1.4rem;
+      border-radius: 0px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-more:hover {
+      background: var(--light-surface);
+      border-color: var(--light-text);
+    }
+
+    .btn-more svg { width: 12px; height: 12px; }
+
+    .last-updated {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--light-muted);
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--light-border);
+      font-style: italic;
+    }
+
+    /* ========================================================= */
+    /* ==================== FOOTER ============================= */
+    /* ========================================================= */
+
+    footer {
+      background: var(--footer-bg);
+      border-top: 1px solid var(--light-border);
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 5rem 40px 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr;
+      gap: 60px;
+      padding-bottom: 4rem;
+    }
+
+    .footer-heading {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--light-text);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      max-width: 340px;
+    }
+
+    .footer-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .footer-cta-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-text);
+      color: var(--light-bg);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 1rem 1.75rem;
+      transition: opacity 0.15s ease;
+    }
+
+    .footer-cta-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-text);
+      color: var(--light-bg);
+      width: 48px;
+      height: 48px;
+      transition: opacity 0.15s ease;
+    }
+
+    .footer-cta-arrow svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .footer-cta:hover .footer-cta-main,
+    .footer-cta:hover .footer-cta-arrow {
+      opacity: 0.85;
+    }
+
+    .footer-block { margin-bottom: 2.5rem; }
+    .footer-block:last-child { margin-bottom: 0; }
+
+    .footer-block-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--footer-label);
+      letter-spacing: 0.2px;
+      margin-bottom: 0.7rem;
+      display: block;
+    }
+
+    .footer-block-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--light-text);
+      line-height: 1.5;
+      text-decoration: none;
+      display: block;
+    }
+
+    a.footer-block-value:hover { opacity: 0.6; }
+
+    .footer-col-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--footer-label);
+      letter-spacing: 0.2px;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .footer-col-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .footer-col-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--light-text);
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+      width: fit-content;
+    }
+
+    .footer-col-links a:hover { opacity: 0.6; }
+
+    .footer-socials {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .footer-social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--light-border);
+      background: var(--light-bg);
+      color: var(--light-text);
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .footer-social-icon:hover {
+      background: var(--light-text);
+      border-color: var(--light-text);
+      color: var(--light-bg);
+    }
+
+    .footer-social-icon svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+      fill: currentColor;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--footer-bottom-border);
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      color: var(--footer-label);
+    }
+
+    .footer-bottom-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom-left a {
+      color: var(--footer-label);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-bottom-left a:hover { color: var(--light-text); }
+
+    .footer-bottom-right {
+      color: var(--footer-label);
+      font-size: 0.78rem;
+    }
+
+    /* --- RESPONSIVE DESIGN --- */
+    @media (max-width: 1024px) {
+      .hero h1 { font-size: 3rem; }
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 60px 0; }
+      .hero-visual { height: 400px; }
+      .mockup-main { right: 0; }
+      .mockup-dropdown { left: 20px; }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+      }
+      .footer-heading { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 900px) {
+      .clubs-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .header-left { width: 100%; justify-content: space-between; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .hero h1 { font-size: 2.5rem; }
+      .search-section { padding: 40px 0; }
+      .footer-inner { padding: 3rem 20px 1.5rem; }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-bottom: 2rem;
+      }
+      .footer-heading { font-size: 1.5rem; }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <a href="index.html" class="brand" aria-label="Olkvaj home">
+          <picture>
+            <!-- Dark mode → light-colored logo on dark background -->
+            <source srcset="../images/branding/olkvaj-light.png"
+                    media="(prefers-color-scheme: dark)">
+            <!-- Light mode (default) → dark-colored logo on light background -->
+            <img src="../images/branding/olkvaj-dark.png"
+                 alt="Olkvaj"
+                 class="brand-logo">
+          </picture>
+        </a>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="#">About</a>
+          <a href="settings.html">Settings</a>
+        </nav>
+      </div>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../sports/football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>The Standard for<br>Sports Data <span class="accent">&amp; Analytics</span></h1>
+        <p>Olkvaj is a detailed, structured archive of athletes across every sport — from career timelines to season stats, trophies, positions, and more.</p>
+        <div class="hero-buttons">
+          <a href="../sports/football/profiles/players/" class="btn btn-primary">Explore Players</a>
+          <a href="#" class="btn btn-secondary">About the Project</a>
+        </div>
+        <div class="trust-logos">
+          <span>FANS</span>
+          <span>ANALYSTS</span>
+          <span>SCOUTS</span>
+          <span>MEDIA</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="mockup-card mockup-main"></div>
+        <div class="mockup-card mockup-dropdown">
+          <div class="dropdown-item active"><span>⚽</span> Football</div>
+          <div class="dropdown-item"><span>🏏</span> Cricket</div>
+          <div class="dropdown-item"><span>🏀</span> Basketball</div>
+          <div class="dropdown-item"><span>🎾</span> Tennis</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH SECTION -->
+    <section class="search-section">
+      <div class="search-inner">
+        <div class="search-label">Search Database</div>
+        <form class="search-box" onsubmit="event.preventDefault();">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="search-input"
+                 placeholder="Search players or teams..."
+                 aria-label="Search players or teams" />
+        </form>
+        <div class="search-hint">
+          Try "Ronaldinho", "Real Madrid", or "India"
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- ================= FOOTBALL CLUBS ======================== -->
+  <!-- ========================================================= -->
+  <section class="clubs-section">
+    <div class="clubs-inner">
+      <div class="clubs-header">
+        <h2>View Football Clubs</h2>
+        <p>Browse detailed profiles of the biggest clubs in world football.</p>
+      </div>
+
+      <div class="clubs-grid">
+
+        <a href="../sports/football/profiles/clubs/real-madrid.html" class="club-badge">
+          <img src="../sports/football/clubs-img/real-madrid.png" alt="Real Madrid" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'RM'}))" />
+          <div class="club-badge-name">Real Madrid</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/spain.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Spain</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/ac-milan.html" class="club-badge">
+          <img src="../sports/football/clubs-img/ac-milan.png" alt="AC Milan" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ACM'}))" />
+          <div class="club-badge-name">AC Milan</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/italy.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Italy</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/bayern-munich.html" class="club-badge">
+          <img src="../sports/football/clubs-img/bayern-munich.png" alt="Bayern Munich" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BM'}))" />
+          <div class="club-badge-name">Bayern Munich</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/germany.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Germany</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/psg.html" class="club-badge">
+          <img src="../sports/football/clubs-img/psg.png" alt="Paris Saint-Germain" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PSG'}))" />
+          <div class="club-badge-name">PSG</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/france.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">France</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/barcelona.html" class="club-badge">
+          <img src="../sports/football/clubs-img/barcelona.png" alt="Barcelona" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'FCB'}))" />
+          <div class="club-badge-name">Barcelona</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/spain.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Spain</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/manchester-city.html" class="club-badge">
+          <img src="../sports/football/clubs-img/manchester-city.png" alt="Manchester City" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MC'}))" />
+          <div class="club-badge-name">Manchester City</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/england.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">England</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/inter-milan.html" class="club-badge">
+          <img src="../sports/football/clubs-img/inter-milan.png" alt="Inter Milan" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'IM'}))" />
+          <div class="club-badge-name">Inter Milan</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/italy.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Italy</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/juventus.html" class="club-badge">
+          <img src="../sports/football/clubs-img/juventus.png" alt="Juventus" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'JUV'}))" />
+          <div class="club-badge-name">Juventus</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/italy.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Italy</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/manchester-united.html" class="club-badge">
+          <img src="../sports/football/clubs-img/manchester-united.png" alt="Manchester United" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MU'}))" />
+          <div class="club-badge-name">Manchester United</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/england.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">England</span>
+          </span>
+        </a>
+
+        <a href="../sports/football/profiles/clubs/ajax.html" class="club-badge">
+          <img src="../sports/football/clubs-img/ajax.png" alt="Ajax" class="club-badge-logo"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'AJX'}))" />
+          <div class="club-badge-name">Ajax</div>
+          <span class="flag-wrap">
+            <img src="../images/flags/netherlands.png" alt="" class="club-badge-flag" />
+            <span class="flag-tooltip">Netherlands</span>
+          </span>
+        </a>
+
+      </div>
+
+      <div class="more-wrap">
+        <a href="lists/football-cl.html" class="btn-more">
+          More
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <div class="last-updated">Last updated: September 2026</div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- ===================== FOOTER ============================ -->
+  <!-- ========================================================= -->
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-grid">
+
+        <!-- Column 1: Heading + CTA -->
+        <div class="footer-col">
+          <h2 class="footer-heading">Providing Detailed<br>Analytics</h2>
+          <a href="mailto:olkvajdata@gmail.com" class="footer-cta">
+            <span class="footer-cta-main">Get in Touch</span>
+            <span class="footer-cta-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <!-- Column 2: Contact info -->
+        <div class="footer-col">
+          <div class="footer-block">
+            <span class="footer-block-label">Contact Mail</span>
+            <a href="mailto:olkvajdata@gmail.com" class="footer-block-value">olkvajdata@gmail.com</a>
+          </div>
+          <div class="footer-block">
+            <span class="footer-block-label">Address</span>
+            <span class="footer-block-value">Kabul, Afghanistan</span>
+          </div>
+        </div>
+
+        <!-- Column 3: Menu -->
+        <div class="footer-col">
+          <span class="footer-col-label">Menu</span>
+          <div class="footer-col-links">
+            <a href="index.html">Home</a>
+            <a href="#">About</a>
+            <a href="mailto:olkvajdata@gmail.com">Contact</a>
+          </div>
+        </div>
+
+        <!-- Column 4: Social (icon-only, stacked) -->
+        <div class="footer-col">
+          <span class="footer-col-label">Social</span>
+          <div class="footer-socials">
+
+            <a href="https://x.com/Olkvaj" class="footer-social-icon"
+               aria-label="X" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+
+            <a href="https://youtube.com/@Olkvaj" class="footer-social-icon"
+               aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+
+            <a href="https://instagram.com/Olkvaj" class="footer-social-icon"
+               aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+              </svg>
+            </a>
+
+            <a href="https://discord.gg/n3hhNfHdHG" class="footer-social-icon"
+               aria-label="Discord" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+              </svg>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="cookies.html">Cookies</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+        <div class="footer-bottom-right">
+          2026 Olkvaj. All rights reserved.
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

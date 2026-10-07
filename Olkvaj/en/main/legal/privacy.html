@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --warning-red: #dc2626;
+      --hover-bg: #f5f5f5;
+      --selected-bg: #f0f0f0;
+    }
+
+    body.dark-theme {
+      --bg-color: #0a0a0a;
+      --surface: #141414;
+      --text-main: #f5f5f5;
+      --text-muted: #8a8a8a;
+      --border-color: #262626;
+      --btn-black: #ffffff;
+      --btn-white: #1a1a1a;
+      --hover-bg: #1f1f1f;
+      --selected-bg: #222222;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* PAGE LAYOUT */
+    .page {
+      padding: 60px 0 100px;
+      max-width: 780px;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-header .meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .page-header .meta strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Content */
+    .content h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .content h2:first-of-type { margin-top: 0; }
+
+    .content h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .content ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .content ul li {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .content ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .content a {
+      color: var(--text-main);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .content a:hover {
+      opacity: 0.7;
+    }
+
+    /* Highlight box */
+    .notice-box {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--text-main);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .notice-box p {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .notice-box strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* Data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .data-table th,
+    .data-table td {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: var(--hover-bg);
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.78rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .data-table td {
+      color: var(--text-muted);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 0;
+      margin-top: 60px;
+    }
+
+    footer .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .page-header h1 { font-size: 2rem; }
+      .content h2 { font-size: 1.2rem; }
+      .data-table { font-size: 0.78rem; }
+      .data-table th,
+      .data-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../sports/football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <div class="page-header">
+        <h1>Privacy Policy</h1>
+        <p class="meta">
+          <strong>Last updated:</strong> September 2026 &nbsp;•&nbsp;
+          <strong>Effective:</strong> September 2026
+        </p>
+      </div>
+
+      <div class="content">
+
+        <div class="notice-box">
+          <p>
+            <strong>Your privacy matters to us.</strong> This Privacy Policy explains what personal information Olkvaj collects, how we use it, and the choices you have. By using our Service, you agree to the practices described below.
+          </p>
+        </div>
+
+        <h2>1. Introduction</h2>
+        <p>
+          This Privacy Policy applies to the Olkvaj website, mobile applications, and related services (collectively, the "Service"), operated by Olkvaj ("we", "us", or "our"). It explains how we collect, use, share, and protect your personal information.
+        </p>
+        <p>
+          This policy should be read together with our <a href="cookies.html">Cookie Policy</a> and <a href="terms.html">Terms of Service</a>.
+        </p>
+
+        <h2>2. Information We Collect</h2>
+        <p>
+          We collect information in three main ways: information you give us, information collected automatically, and information from third parties.
+        </p>
+
+        <h3>Information You Provide</h3>
+        <ul>
+          <li><strong>Account information</strong> — name, email address, and password when you register.</li>
+          <li><strong>Profile information</strong> — optional details such as your favourite teams or sports.</li>
+          <li><strong>Communications</strong> — messages you send us via contact forms or support requests.</li>
+          <li><strong>Preferences</strong> — your theme, language, time zone, and cookie consent choices.</li>
+          <li><strong>Payment information</strong> — if you subscribe to a paid plan, handled by our payment processors (we do not store card details).</li>
+        </ul>
+
+        <h3>Information Collected Automatically</h3>
+        <ul>
+          <li><strong>Device information</strong> — browser type, operating system, device type, and screen size.</li>
+          <li><strong>Log data</strong> — IP address, pages visited, time spent, and referring URLs.</li>
+          <li><strong>Cookies and similar technologies</strong> — subject to your consent choices (see our <a href="cookies.html">Cookie Policy</a>).</li>
+        </ul>
+
+        <h3>Information from Third Parties</h3>
+        <ul>
+          <li><strong>Authentication providers</strong> — if you sign in with Google, Apple, or another provider.</li>
+          <li><strong>Advertising partners</strong> — anonymized data related to ad delivery and measurement.</li>
+          <li><strong>Analytics providers</strong> — aggregated usage data (e.g. Google Analytics).</li>
+        </ul>
+
+        <h2>3. How We Use Your Information</h2>
+        <p>
+          We use your information to:
+        </p>
+        <ul>
+          <li>Provide, maintain, and improve the Service.</li>
+          <li>Create and manage your account.</li>
+          <li>Personalize your experience (theme, language, saved preferences).</li>
+          <li>Respond to your questions and provide customer support.</li>
+          <li>Send administrative messages (security alerts, service updates).</li>
+          <li>Send marketing emails if you opted in — you can unsubscribe at any time.</li>
+          <li>Display relevant advertisements through our ad partners.</li>
+          <li>Detect, prevent, and address fraud, abuse, or security issues.</li>
+          <li>Comply with legal obligations.</li>
+        </ul>
+
+        <h2>4. Legal Bases for Processing</h2>
+        <p>
+          If you are located in the European Economic Area (EEA), the UK, or Switzerland, we process your personal data under the following legal bases:
+        </p>
+        <ul>
+          <li><strong>Contract</strong> — to provide the Service you have requested.</li>
+          <li><strong>Legitimate interests</strong> — to improve our Service, prevent fraud, and secure our systems.</li>
+          <li><strong>Consent</strong> — for optional cookies, marketing emails, and personalized advertising.</li>
+          <li><strong>Legal obligation</strong> — to comply with applicable laws.</li>
+        </ul>
+
+        <h2>5. How We Share Your Information</h2>
+        <p>
+          We do not sell your personal information. We share it only in the following situations:
+        </p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Service providers</td>
+              <td>Hosting, analytics, email delivery, payment processing — under contract.</td>
+            </tr>
+            <tr>
+              <td>Advertising partners</td>
+              <td>To deliver ads and measure performance (only with your consent).</td>
+            </tr>
+            <tr>
+              <td>Authentication providers</td>
+              <td>If you use third-party sign-in (Google, Apple, etc.).</td>
+            </tr>
+            <tr>
+              <td>Legal authorities</td>
+              <td>When required by law, court order, or valid legal process.</td>
+            </tr>
+            <tr>
+              <td>Business successors</td>
+              <td>In the event of a merger, acquisition, or sale of assets.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>6. Cookies and Tracking Technologies</h2>
+        <p>
+          We use cookies and similar technologies for essential functionality, analytics, personalization, and advertising. You can control which non-essential cookies are used through our cookie banner or at any time in <a href="settings.html">Settings → Data &amp; Privacy</a>.
+        </p>
+        <p>
+          For a detailed breakdown of each cookie, please see our <a href="cookies.html">Cookie Policy</a>.
+        </p>
+
+        <h2>7. Data Retention</h2>
+        <p>
+          We retain your personal information only for as long as necessary to fulfill the purposes described in this policy, unless a longer retention period is required by law. Specifically:
+        </p>
+        <ul>
+          <li><strong>Account information</strong> — until you delete your account, plus a short period for legal and backup purposes.</li>
+          <li><strong>Log data</strong> — up to 12 months.</li>
+          <li><strong>Analytics data</strong> — up to 26 months (Google Analytics default).</li>
+          <li><strong>Marketing data</strong> — until you unsubscribe or request deletion.</li>
+        </ul>
+
+        <h2>8. Your Rights</h2>
+        <p>
+          Depending on where you live, you may have the following rights regarding your personal information:
+        </p>
+        <ul>
+          <li><strong>Access</strong> — request a copy of the data we hold about you.</li>
+          <li><strong>Correction</strong> — ask us to correct inaccurate information.</li>
+          <li><strong>Deletion</strong> — request that we delete your personal data.</li>
+          <li><strong>Restriction</strong> — limit how we use your data.</li>
+          <li><strong>Portability</strong> — receive your data in a machine-readable format.</li>
+          <li><strong>Objection</strong> — object to processing based on legitimate interests.</li>
+          <li><strong>Withdraw consent</strong> — at any time, for consent-based processing.</li>
+        </ul>
+        <p>
+          To exercise any of these rights, email us at <strong>privacy@olkvaj.com</strong> or use the tools in <a href="settings.html">Settings → Data &amp; Privacy</a>.
+        </p>
+
+        <h2>9. California Privacy Rights (CCPA/CPRA)</h2>
+        <p>
+          If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA), including:
+        </p>
+        <ul>
+          <li>The right to know what personal information we collect, use, and share.</li>
+          <li>The right to delete personal information we have collected from you.</li>
+          <li>The right to correct inaccurate personal information.</li>
+          <li>The right to opt out of the "sale" or "sharing" of personal information for cross-context behavioral advertising.</li>
+          <li>The right to non-discrimination for exercising your privacy rights.</li>
+        </ul>
+        <p>
+          To opt out of the sharing of your personal information for advertising purposes, disable "Advertising Cookies" in your cookie preferences.
+        </p>
+
+        <h2>10. Children's Privacy</h2>
+        <p>
+          Olkvaj is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected such information, please contact us at <strong>privacy@olkvaj.com</strong> so we can delete it.
+        </p>
+
+        <h2>11. International Data Transfers</h2>
+        <p>
+          Olkvaj operates globally. Your personal information may be transferred to, stored, and processed in countries other than your own, including the United States. When we transfer data internationally, we use appropriate safeguards such as standard contractual clauses approved by the European Commission.
+        </p>
+
+        <h2>12. Data Security</h2>
+        <p>
+          We take reasonable technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These include encryption in transit (HTTPS), hashed passwords, and access controls. However, no system is 100% secure — you use the Service at your own risk.
+        </p>
+
+        <h2>13. Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. When we make material changes, we will notify you by email or through a prominent notice on the Service, and update the "Last updated" date at the top of this page.
+        </p>
+
+        <h2>14. Contact Us</h2>
+        <p>
+          If you have any questions about this Privacy Policy or how we handle your personal information, please contact us:
+        </p>
+        <p>
+          <strong>Email:</strong> privacy@olkvaj.com<br>
+          <strong>Data Protection Officer:</strong> dpo@olkvaj.com<br>
+          <strong>Website:</strong> <a href="index.html">olkvaj.com</a>
+        </p>
+
+        <div class="notice-box" style="margin-top: 40px;">
+          <p>
+            By continuing to use Olkvaj, you acknowledge that you have read and understood this Privacy Policy.
+          </p>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© 2026 Olkvaj. All rights reserved.</span>
+        <span>
+          <a href="index.html">Home</a> &nbsp;·&nbsp;
+          <a href="settings.html">Settings</a> &nbsp;·&nbsp;
+          <a href="privacy.html">Privacy</a> &nbsp;·&nbsp;
+          <a href="cookies.html">Cookies</a> &nbsp;·&nbsp;
+          <a href="terms.html">Terms</a>
+        </span>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>

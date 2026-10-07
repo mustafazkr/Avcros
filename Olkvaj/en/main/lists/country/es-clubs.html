@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spanish Clubs — La Liga | Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --hover-bg: #f5f5f5;
+      --warning-red: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav { display: flex; gap: 32px; }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions { display: flex; align-items: center; gap: 24px; }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* BACK BUTTON */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 0px;
+      margin-bottom: 32px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    /* MAIN */
+    main { flex: 1; padding: 60px 0 80px; }
+
+    .page-wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* PAGE HEADER */
+    .page-header { margin-bottom: 32px; }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* SEARCH */
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 220px;
+      max-width: 420px;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within { border-color: var(--btn-black); }
+
+    .search-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      min-width: 0;
+    }
+
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .search-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    /* CLUBS GRID */
+    .clubs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .club-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.25rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      text-decoration: none;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, transform 0.1s ease;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+    }
+
+    .club-badge:hover { border-color: var(--text-main); }
+    .club-badge:active { transform: scale(0.98); }
+
+    .club-badge-logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-fallback {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      background: var(--surface);
+      border: 1px dashed var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    /* LAST UPDATED */
+    .last-updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      font-style: italic;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 0;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.2s;
+    }
+
+    .footer-inner a:hover { color: var(--text-main); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .clubs-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 800px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .page-header h1 { font-size: 1.75rem; }
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-inner a { margin-left: 0; margin-right: 16px; }
+      .search-box { max-width: 100%; }
+      .search-count { width: 100%; text-align: right; }
+    }
+
+    @media (max-width: 500px) {
+      .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="../../../../main/index.html">Home</a>
+        <a href="#">About</a>
+        <a href="../../../../main/settings.html">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../../../football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-wrap">
+
+        <!-- BACK BUTTON -->
+        <a href="index.html" class="btn-back">← Back to Clubs</a>
+
+        <div class="page-header">
+          <h1>Spanish Clubs</h1>
+          <p>50 clubs from across Spanish football — La Liga, Segunda División, and historic sides from every region.</p>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-wrap">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" id="club-search"
+                   placeholder="Search Spanish clubs..." autocomplete="off"
+                   aria-label="Search Spanish clubs" />
+          </div>
+          <div class="search-count" id="search-count">
+            Showing 50 of 50 clubs
+          </div>
+        </div>
+
+        <!-- CLUBS GRID -->
+        <div class="clubs-grid" id="clubs-grid">
+
+          <a href="../../../sports/football/profiles/clubs/albacete.html"
+             class="club-badge" data-club="Albacete, Albacete Balompié">
+            <img src="../../../sports/football/clubs-img/albacete.png" alt="Albacete" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ALB'}))" />
+            <div class="club-badge-name">Albacete</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/alcoyano.html"
+             class="club-badge" data-club="Alcoyano, CD Alcoyano">
+            <img src="../../../sports/football/clubs-img/alcoyano.png" alt="Alcoyano" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ALC'}))" />
+            <div class="club-badge-name">Alcoyano</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/athletic-bilbao.html"
+             class="club-badge" data-club="Athletic Bilbao, Athletic Club">
+            <img src="../../../sports/football/clubs-img/athletic-bilbao.png" alt="Athletic Bilbao" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ATH'}))" />
+            <div class="club-badge-name">Athletic Bilbao</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/atletico-madrid.html"
+             class="club-badge" data-club="Atlético Madrid, Atletico Madrid, Atleti">
+            <img src="../../../sports/football/clubs-img/atletico-madrid.png" alt="Atlético Madrid" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ATM'}))" />
+            <div class="club-badge-name">Atlético Madrid</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/barcelona.html"
+             class="club-badge" data-club="Barcelona, FC Barcelona, Barça">
+            <img src="../../../sports/football/clubs-img/barcelona.png" alt="Barcelona" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BAR'}))" />
+            <div class="club-badge-name">Barcelona</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/burgos.html"
+             class="club-badge" data-club="Burgos, Burgos CF">
+            <img src="../../../sports/football/clubs-img/burgos.png" alt="Burgos" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BUR'}))" />
+            <div class="club-badge-name">Burgos</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cadiz.html"
+             class="club-badge" data-club="Cádiz, Cadiz, Cádiz CF">
+            <img src="../../../sports/football/clubs-img/cadiz.png" alt="Cádiz" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CAD'}))" />
+            <div class="club-badge-name">Cádiz</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cartagena.html"
+             class="club-badge" data-club="Cartagena, FC Cartagena">
+            <img src="../../../sports/football/clubs-img/cartagena.png" alt="Cartagena" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CAR'}))" />
+            <div class="club-badge-name">Cartagena</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/castellon.html"
+             class="club-badge" data-club="Castellón, CD Castellón">
+            <img src="../../../sports/football/clubs-img/castellon.png" alt="Castellón" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CAS'}))" />
+            <div class="club-badge-name">Castellón</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/celta-vigo.html"
+             class="club-badge" data-club="Celta Vigo, Celta">
+            <img src="../../../sports/football/clubs-img/celta-vigo.png" alt="Celta Vigo" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'CEL'}))" />
+            <div class="club-badge-name">Celta Vigo</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/cordoba.html"
+             class="club-badge" data-club="Córdoba, Cordoba, Córdoba CF">
+            <img src="../../../sports/football/clubs-img/cordoba.png" alt="Córdoba" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'COR'}))" />
+            <div class="club-badge-name">Córdoba</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/deportivo-alaves.html"
+             class="club-badge" data-club="Deportivo Alavés, Alavés">
+            <img src="../../../sports/football/clubs-img/deportivo-alaves.png" alt="Deportivo Alavés" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ALA'}))" />
+            <div class="club-badge-name">Deportivo Alavés</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/deportivo-la-coruna.html"
+             class="club-badge" data-club="Deportivo La Coruña, Deportivo, Depor">
+            <img src="../../../sports/football/clubs-img/deportivo-la-coruna.png" alt="Deportivo La Coruña" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'DEP'}))" />
+            <div class="club-badge-name">Deportivo La Coruña</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/eibar.html"
+             class="club-badge" data-club="Eibar, SD Eibar">
+            <img src="../../../sports/football/clubs-img/eibar.png" alt="Eibar" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'EIB'}))" />
+            <div class="club-badge-name">Eibar</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/elche.html"
+             class="club-badge" data-club="Elche, Elche CF">
+            <img src="../../../sports/football/clubs-img/elche.png" alt="Elche" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ELC'}))" />
+            <div class="club-badge-name">Elche</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/espanyol.html"
+             class="club-badge" data-club="Espanyol, RCD Espanyol">
+            <img src="../../../sports/football/clubs-img/espanyol.png" alt="Espanyol" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ESP'}))" />
+            <div class="club-badge-name">Espanyol</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/extremadura.html"
+             class="club-badge" data-club="Extremadura, Extremadura UD">
+            <img src="../../../sports/football/clubs-img/extremadura.png" alt="Extremadura" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'EXT'}))" />
+            <div class="club-badge-name">Extremadura</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/getafe.html"
+             class="club-badge" data-club="Getafe, Getafe CF">
+            <img src="../../../sports/football/clubs-img/getafe.png" alt="Getafe" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'GET'}))" />
+            <div class="club-badge-name">Getafe</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/girona.html"
+             class="club-badge" data-club="Girona, Girona FC">
+            <img src="../../../sports/football/clubs-img/girona.png" alt="Girona" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'GIR'}))" />
+            <div class="club-badge-name">Girona</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/granada.html"
+             class="club-badge" data-club="Granada, Granada CF">
+            <img src="../../../sports/football/clubs-img/granada.png" alt="Granada" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'GRA'}))" />
+            <div class="club-badge-name">Granada</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/hercules.html"
+             class="club-badge" data-club="Hércules, Hercules, Hércules CF">
+            <img src="../../../sports/football/clubs-img/hercules.png" alt="Hércules" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'HER'}))" />
+            <div class="club-badge-name">Hércules</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/huesca.html"
+             class="club-badge" data-club="Huesca, SD Huesca">
+            <img src="../../../sports/football/clubs-img/huesca.png" alt="Huesca" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'HUE'}))" />
+            <div class="club-badge-name">Huesca</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/ibiza.html"
+             class="club-badge" data-club="Ibiza, UD Ibiza">
+            <img src="../../../sports/football/clubs-img/ibiza.png" alt="Ibiza" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'IBZ'}))" />
+            <div class="club-badge-name">Ibiza</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/las-palmas.html"
+             class="club-badge" data-club="Las Palmas, UD Las Palmas">
+            <img src="../../../sports/football/clubs-img/las-palmas.png" alt="Las Palmas" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LPA'}))" />
+            <div class="club-badge-name">Las Palmas</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/leganes.html"
+             class="club-badge" data-club="Leganés, Leganes, CD Leganés">
+            <img src="../../../sports/football/clubs-img/leganes.png" alt="Leganés" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LEG'}))" />
+            <div class="club-badge-name">Leganés</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/levante.html"
+             class="club-badge" data-club="Levante, Levante UD">
+            <img src="../../../sports/football/clubs-img/levante.png" alt="Levante" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'LEV'}))" />
+            <div class="club-badge-name">Levante</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/malaga.html"
+             class="club-badge" data-club="Málaga, Malaga, Málaga CF">
+            <img src="../../../sports/football/clubs-img/malaga.png" alt="Málaga" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MAL'}))" />
+            <div class="club-badge-name">Málaga</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/mallorca.html"
+             class="club-badge" data-club="Mallorca, RCD Mallorca">
+            <img src="../../../sports/football/clubs-img/mallorca.png" alt="Mallorca" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MLL'}))" />
+            <div class="club-badge-name">Mallorca</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/mirandes.html"
+             class="club-badge" data-club="Mirandés, CD Mirandés">
+            <img src="../../../sports/football/clubs-img/mirandes.png" alt="Mirandés" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'MIR'}))" />
+            <div class="club-badge-name">Mirandés</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/numancia.html"
+             class="club-badge" data-club="Numancia, CD Numancia">
+            <img src="../../../sports/football/clubs-img/numancia.png" alt="Numancia" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NUM'}))" />
+            <div class="club-badge-name">Numancia</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/osasuna.html"
+             class="club-badge" data-club="Osasuna, CA Osasuna">
+            <img src="../../../sports/football/clubs-img/osasuna.png" alt="Osasuna" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'OSA'}))" />
+            <div class="club-badge-name">Osasuna</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/oviedo.html"
+             class="club-badge" data-club="Real Oviedo, Oviedo">
+            <img src="../../../sports/football/clubs-img/oviedo.png" alt="Real Oviedo" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'OVI'}))" />
+            <div class="club-badge-name">Real Oviedo</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/ponferradina.html"
+             class="club-badge" data-club="Ponferradina, SD Ponferradina">
+            <img src="../../../sports/football/clubs-img/ponferradina.png" alt="Ponferradina" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PON'}))" />
+            <div class="club-badge-name">Ponferradina</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/racing-santander.html"
+             class="club-badge" data-club="Racing Santander, Racing">
+            <img src="../../../sports/football/clubs-img/racing-santander.png" alt="Racing Santander" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'RAC'}))" />
+            <div class="club-badge-name">Racing Santander</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/rayo-vallecano.html"
+             class="club-badge" data-club="Rayo Vallecano, Rayo">
+            <img src="../../../sports/football/clubs-img/rayo-vallecano.png" alt="Rayo Vallecano" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'RAY'}))" />
+            <div class="club-badge-name">Rayo Vallecano</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/real-betis.html"
+             class="club-badge" data-club="Real Betis, Betis">
+            <img src="../../../sports/football/clubs-img/real-betis.png" alt="Real Betis" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BET'}))" />
+            <div class="club-badge-name">Real Betis</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/real-madrid.html"
+             class="club-badge" data-club="Real Madrid">
+            <img src="../../../sports/football/clubs-img/real-madrid.png" alt="Real Madrid" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'RMA'}))" />
+            <div class="club-badge-name">Real Madrid</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/real-sociedad.html"
+             class="club-badge" data-club="Real Sociedad, Sociedad">
+            <img src="../../../sports/football/clubs-img/real-sociedad.png" alt="Real Sociedad" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'RSO'}))" />
+            <div class="club-badge-name">Real Sociedad</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/real-zaragoza.html"
+             class="club-badge" data-club="Real Zaragoza, Zaragoza">
+            <img src="../../../sports/football/clubs-img/real-zaragoza.png" alt="Real Zaragoza" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ZAR'}))" />
+            <div class="club-badge-name">Real Zaragoza</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/sabadell.html"
+             class="club-badge" data-club="Sabadell, CE Sabadell">
+            <img src="../../../sports/football/clubs-img/sabadell.png" alt="Sabadell" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SAB'}))" />
+            <div class="club-badge-name">Sabadell</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/salamanca.html"
+             class="club-badge" data-club="Salamanca, UD Salamanca">
+            <img src="../../../sports/football/clubs-img/salamanca.png" alt="Salamanca" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SAL'}))" />
+            <div class="club-badge-name">Salamanca</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/sevilla.html"
+             class="club-badge" data-club="Sevilla, Sevilla FC">
+            <img src="../../../sports/football/clubs-img/sevilla.png" alt="Sevilla" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SEV'}))" />
+            <div class="club-badge-name">Sevilla</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/sporting-gijon.html"
+             class="club-badge" data-club="Sporting Gijón, Sporting">
+            <img src="../../../sports/football/clubs-img/sporting-gijon.png" alt="Sporting Gijón" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SPG'}))" />
+            <div class="club-badge-name">Sporting Gijón</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/tenerife.html"
+             class="club-badge" data-club="Tenerife, CD Tenerife">
+            <img src="../../../sports/football/clubs-img/tenerife.png" alt="Tenerife" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'TEN'}))" />
+            <div class="club-badge-name">Tenerife</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/valencia.html"
+             class="club-badge" data-club="Valencia, Valencia CF">
+            <img src="../../../sports/football/clubs-img/valencia.png" alt="Valencia" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'VAL'}))" />
+            <div class="club-badge-name">Valencia</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/valladolid.html"
+             class="club-badge" data-club="Valladolid, Real Valladolid">
+            <img src="../../../sports/football/clubs-img/valladolid.png" alt="Valladolid" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'VLL'}))" />
+            <div class="club-badge-name">Valladolid</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/villarreal.html"
+             class="club-badge" data-club="Villarreal, Villarreal CF">
+            <img src="../../../sports/football/clubs-img/villarreal.png" alt="Villarreal" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'VIL'}))" />
+            <div class="club-badge-name">Villarreal</div>
+          </a>
+
+          <a href="../../../sports/football/profiles/clubs/xerez.html"
+             class="club-badge" data-club="Xerez, Xerez CD">
+            <img src="../../../sports/football/clubs-img/xerez.png" alt="Xerez" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'XER'}))" />
+            <div class="club-badge-name">Xerez</div>
+          </a>
+
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          No clubs match your search.
+        </div>
+
+        <div class="last-updated">Last updated: September 2026</div>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="container">
+    <footer>
+      <div class="footer-inner">
+        <div>© 2026 Olkvaj · Data for informational purposes only.</div>
+        <div>
+          <a href="../../../../main/privacy.html">Privacy</a>
+          <a href="../../../../main/cookies.html">Cookies</a>
+          <a href="../../../../main/terms.html">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("club-search");
+    const grid = document.getElementById("clubs-grid");
+    const count = document.getElementById("search-count");
+    const emptyState = document.getElementById("empty-state");
+
+    if (searchInput && grid) {
+      const cards = Array.from(grid.querySelectorAll(".club-badge"));
+      const total = cards.length;
+
+      function updateCount(visible) {
+        if (count) {
+          count.textContent =
+            visible === total
+              ? `Showing ${total} of ${total} clubs`
+              : `Showing ${visible} of ${total} clubs`;
+        }
+        if (emptyState) {
+          emptyState.hidden = visible !== 0;
+        }
+      }
+
+      const strip = (s) =>
+        s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+      updateCount(total);
+
+      searchInput.addEventListener("input", () => {
+        const q = strip(searchInput.value.trim());
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const name = strip(card.dataset.club || "");
+          const match = q === "" || name.includes(q);
+          card.style.display = match ? "" : "none";
+          if (match) visible++;
+        });
+
+        updateCount(visible);
+      });
+    }
+  </script>
+
+</body>
+</html>

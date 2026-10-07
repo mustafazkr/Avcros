@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Football Clubs — Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --hover-bg: #f5f5f5;
+      --warning-red: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav { display: flex; gap: 32px; }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions { display: flex; align-items: center; gap: 24px; }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* BACK BUTTON */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 0px;
+      margin-bottom: 32px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    /* MAIN */
+    main { flex: 1; padding: 60px 0 80px; }
+
+    .page-wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* PAGE HEADER */
+    .page-header { margin-bottom: 32px; }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* SEARCH + FILTER BAR */
+    .controls-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 220px;
+      max-width: 420px;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within { border-color: var(--btn-black); }
+
+    .search-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      min-width: 0;
+    }
+
+    .search-input::placeholder { color: var(--text-muted); }
+
+    /* SORT DROPDOWN */
+    .sort-dropdown {
+      position: relative;
+    }
+
+    .sort-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+      min-width: 160px;
+      justify-content: space-between;
+    }
+
+    .sort-btn:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    .sort-btn-label {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    .sort-btn-value {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .sort-btn-arrow {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .sort-dropdown.open .sort-btn-arrow {
+      transform: rotate(180deg);
+    }
+
+    .sort-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      min-width: 180px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      z-index: 20;
+      display: none;
+      flex-direction: column;
+    }
+
+    .sort-dropdown.open .sort-menu {
+      display: flex;
+    }
+
+    .sort-menu-item {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 10px 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .sort-menu-item:hover {
+      background: var(--hover-bg);
+    }
+
+    .sort-menu-item.active {
+      font-weight: 700;
+    }
+
+    .sort-menu-item.active::after {
+      content: "✓";
+      color: var(--text-main);
+      font-size: 0.8rem;
+    }
+
+    .search-count {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      width: 100%;
+      text-align: right;
+    }
+
+    /* CLUBS GRID */
+    .clubs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .club-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.25rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      text-decoration: none;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, transform 0.1s ease;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+    }
+
+    .club-badge:hover { border-color: var(--text-main); }
+    .club-badge:active { transform: scale(0.98); }
+
+    .club-badge-logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-fallback {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--hover-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .club-badge-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    /* FLAG */
+    .flag-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.15rem;
+    }
+
+    .club-badge-flag {
+      width: 18px;
+      height: 12px;
+      object-fit: cover;
+      display: block;
+      border: 1px solid #000;
+      border-radius: 1px;
+    }
+
+    .flag-wrap .flag-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) translateY(3px);
+      background: var(--btn-black);
+      color: var(--btn-white);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+
+    .flag-wrap:hover .flag-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      background: var(--surface);
+      border: 1px dashed var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    /* LAST UPDATED */
+    .last-updated {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      font-style: italic;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 0;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.2s;
+    }
+
+    .footer-inner a:hover { color: var(--text-main); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .clubs-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 800px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+
+      .page-header h1 { font-size: 1.75rem; }
+
+      .controls-wrap { flex-direction: column; align-items: stretch; }
+      .search-box { max-width: 100%; }
+      .sort-dropdown { width: 100%; }
+      .sort-btn { width: 100%; }
+      .sort-menu { left: 0; right: 0; }
+      .search-count { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-inner a { margin-left: 0; margin-right: 16px; }
+    }
+
+    @media (max-width: 500px) {
+      .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="../../../../main/index.html">Home</a>
+        <a href="#">About</a>
+        <a href="../../../../main/settings.html">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../../../football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-wrap">
+
+        <!-- BACK BUTTON -->
+        <a href="../index.html" class="btn-back">← Back</a>
+
+        <div class="page-header">
+          <h1>Football Clubs</h1>
+          <p>Browse detailed profiles of the biggest clubs in world football. More clubs are being added regularly.</p>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-wrap controls-wrap">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" id="club-search"
+                   placeholder="Search clubs by name..." autocomplete="off"
+                   aria-label="Search clubs" />
+          </div>
+
+          <div class="search-count" id="search-count">
+            Showing 1 of 1 clubs
+          </div>
+        </div>
+
+        <!-- CLUBS GRID -->
+        <div class="clubs-grid" id="clubs-grid">
+
+          <a href="../../sports/football/profiles/clubs/real-madrid.html"
+             class="club-badge" data-club="Real Madrid">
+            <img src="../../sports/football/clubs-img/real-madrid.png" alt="Real Madrid" class="club-badge-logo"
+                 onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'RMA'}))" />
+            <div class="club-badge-name">Real Madrid</div>
+            <span class="flag-wrap">
+              <img src="../../images/flags/spain.png" alt="" class="club-badge-flag" />
+              <span class="flag-tooltip">Spain</span>
+            </span>
+          </a>
+
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          No clubs match your search.
+        </div>
+
+        <div class="last-updated">Last updated: September 2026</div>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="container">
+    <footer>
+      <div class="footer-inner">
+        <div>© 2026 Olkvaj · Data for informational purposes only.</div>
+        <div>
+          <a href="../../../../main/privacy.html">Privacy</a>
+          <a href="../../../../main/cookies.html">Cookies</a>
+          <a href="../../../../main/terms.html">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("club-search");
+    const grid = document.getElementById("clubs-grid");
+    const count = document.getElementById("search-count");
+    const emptyState = document.getElementById("empty-state");
+
+    if (searchInput && grid) {
+      const cards = Array.from(grid.querySelectorAll(".club-badge"));
+      const total = cards.length;
+
+      function updateCount(visible) {
+        if (count) {
+          count.textContent =
+            visible === total
+              ? `Showing ${total} of ${total} clubs`
+              : `Showing ${visible} of ${total} clubs`;
+        }
+        if (emptyState) {
+          emptyState.hidden = visible !== 0;
+        }
+      }
+
+      const strip = (s) =>
+        s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+      updateCount(total);
+
+      searchInput.addEventListener("input", () => {
+        const q = strip(searchInput.value.trim());
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const name = strip(card.dataset.club || "");
+          const match = q === "" || name.includes(q);
+          card.style.display = match ? "" : "none";
+          if (match) visible++;
+        });
+
+        updateCount(visible);
+      });
+    }
+  </script>
+
+</body>
+</html>

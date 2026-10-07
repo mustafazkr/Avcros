@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --warning-red: #dc2626;
+      --hover-bg: #f5f5f5;
+      --selected-bg: #f0f0f0;
+    }
+
+    body.dark-theme {
+      --bg-color: #0a0a0a;
+      --surface: #141414;
+      --text-main: #f5f5f5;
+      --text-muted: #8a8a8a;
+      --border-color: #262626;
+      --btn-black: #ffffff;
+      --btn-white: #1a1a1a;
+      --hover-bg: #1f1f1f;
+      --selected-bg: #222222;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* PAGE LAYOUT */
+    .page {
+      padding: 60px 0 100px;
+      max-width: 780px;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-header .meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .page-header .meta strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Content */
+    .content h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .content h2:first-of-type { margin-top: 0; }
+
+    .content h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .content ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .content ul li {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .content ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .content a {
+      color: var(--text-main);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .content a:hover {
+      opacity: 0.7;
+    }
+
+    /* Highlight box */
+    .notice-box {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--text-main);
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .notice-box p {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .notice-box strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 0;
+      margin-top: 60px;
+    }
+
+    footer .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .page-header h1 { font-size: 2rem; }
+      .content h2 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../sports/football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <div class="page-header">
+        <h1>Terms of Service</h1>
+        <p class="meta">
+          <strong>Last updated:</strong> September 2026 &nbsp;•&nbsp;
+          <strong>Effective:</strong> September 2026
+        </p>
+      </div>
+
+      <div class="content">
+
+        <div class="notice-box">
+          <p>
+            <strong>Please read these Terms carefully.</strong> By accessing or using Olkvaj, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.
+          </p>
+        </div>
+
+        <h2>1. Introduction</h2>
+        <p>
+          These Terms of Service ("Terms") govern your access to and use of the Olkvaj website, mobile applications, and related services (collectively, the "Service"). The Service is operated by Olkvaj ("we", "us", or "our").
+        </p>
+        <p>
+          By creating an account, browsing the site, or using any part of the Service, you confirm that you have read, understood, and agreed to these Terms.
+        </p>
+
+        <h2>2. Eligibility</h2>
+        <p>
+          You must be at least 13 years old to use Olkvaj. If you are under 18, you must have permission from a parent or legal guardian. By using the Service, you represent and warrant that you meet these requirements.
+        </p>
+
+        <h2>3. Your Account</h2>
+        <p>
+          To access certain features, you may need to create an account. When you do, you agree to:
+        </p>
+        <ul>
+          <li>Provide accurate and up-to-date information.</li>
+          <li>Keep your password secure and confidential.</li>
+          <li>Notify us immediately of any unauthorized use of your account.</li>
+          <li>Accept responsibility for all activity that occurs under your account.</li>
+        </ul>
+        <p>
+          We reserve the right to suspend or terminate accounts that violate these Terms or that we reasonably believe are being used fraudulently.
+        </p>
+
+        <h2>4. Acceptable Use</h2>
+        <p>
+          You agree not to use Olkvaj in any way that:
+        </p>
+        <ul>
+          <li>Violates any applicable law or regulation.</li>
+          <li>Infringes on the rights of others, including intellectual property rights.</li>
+          <li>Involves scraping, crawling, or automated data extraction without our written permission.</li>
+          <li>Attempts to gain unauthorized access to our systems or other users' accounts.</li>
+          <li>Distributes malware, viruses, or any other harmful code.</li>
+          <li>Interferes with the proper functioning of the Service.</li>
+          <li>Uses the Service for commercial purposes without our prior consent.</li>
+        </ul>
+        <p>
+          We reserve the right to investigate and take appropriate legal action against anyone who violates this section.
+        </p>
+
+        <h2>5. Content and Intellectual Property</h2>
+        <h3>Our Content</h3>
+        <p>
+          All content on Olkvaj — including data, statistics, text, logos, graphics, and software — is owned by or licensed to Olkvaj and is protected by copyright, trademark, and other intellectual property laws. You may not copy, modify, distribute, or republish any part of the Service without our prior written permission.
+        </p>
+
+        <h3>Your Content</h3>
+        <p>
+          If you submit content to Olkvaj (such as feedback, comments, or profile information), you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, and display that content in connection with operating and improving the Service.
+        </p>
+
+        <h3>Third-Party Content</h3>
+        <p>
+          Some data and imagery on Olkvaj is sourced from third parties, including public sports databases and licensed partners. While we strive for accuracy, we do not guarantee that all information is complete, current, or error-free.
+        </p>
+
+        <h2>6. Advertisements</h2>
+        <p>
+          Olkvaj displays advertisements through third-party ad networks. By using the Service, you acknowledge and agree that:
+        </p>
+        <ul>
+          <li>Ads may be targeted based on your activity and preferences (subject to your cookie consent choices).</li>
+          <li>We are not responsible for the content, accuracy, or practices of third-party advertisers.</li>
+          <li>Any dealings you have with advertisers are solely between you and the advertiser.</li>
+        </ul>
+
+        <h2>7. Disclaimers</h2>
+        <p>
+          The Service is provided "as is" and "as available" without warranties of any kind, either express or implied. To the fullest extent permitted by law, we disclaim all warranties, including:
+        </p>
+        <ul>
+          <li>That the Service will be uninterrupted, secure, or error-free.</li>
+          <li>That data on the Service will be accurate, complete, or up to date.</li>
+          <li>That any errors in the Service will be corrected.</li>
+        </ul>
+        <p>
+          You use the Service at your own risk.
+        </p>
+
+        <h2>8. Limitation of Liability</h2>
+        <p>
+          To the maximum extent permitted by law, Olkvaj and its officers, employees, and partners shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the Service. This includes, but is not limited to, loss of data, loss of profits, or business interruption.
+        </p>
+        <p>
+          Our total liability to you for any claim arising from these Terms or the Service shall not exceed the greater of (a) the amount you paid us in the 12 months before the claim, or (b) $100 USD.
+        </p>
+
+        <h2>9. Indemnification</h2>
+        <p>
+          You agree to indemnify and hold harmless Olkvaj and its affiliates from any claims, damages, liabilities, and expenses (including legal fees) arising from your use of the Service, your violation of these Terms, or your violation of any third-party rights.
+        </p>
+
+        <h2>10. Termination</h2>
+        <p>
+          We may suspend or terminate your access to Olkvaj at any time, with or without notice, if we believe you have violated these Terms or if we decide to discontinue the Service. You may also delete your account at any time from <a href="settings.html">Settings → Account</a>.
+        </p>
+        <p>
+          Upon termination, your right to use the Service will immediately cease. Sections that by their nature should survive termination (such as Intellectual Property, Disclaimers, and Limitation of Liability) will continue to apply.
+        </p>
+
+        <h2>11. Changes to These Terms</h2>
+        <p>
+          We may update these Terms from time to time. When we do, we will revise the "Last updated" date at the top of this page. If changes are material, we will notify you by email or through a prominent notice on the Service.
+        </p>
+        <p>
+          Your continued use of Olkvaj after any changes means you accept the updated Terms.
+        </p>
+
+        <h2>12. Governing Law</h2>
+        <p>
+          These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Olkvaj operates, without regard to its conflict of law provisions. Any disputes shall be resolved in the courts of that jurisdiction.
+        </p>
+
+        <h2>13. Contact Us</h2>
+        <p>
+          If you have any questions about these Terms of Service, please contact us at:
+        </p>
+        <p>
+          <strong>Email:</strong> legal@olkvaj.com<br>
+          <strong>Website:</strong> <a href="index.html">olkvaj.com</a>
+        </p>
+
+        <div class="notice-box" style="margin-top: 40px;">
+          <p>
+            By using Olkvaj, you acknowledge that you have read and agree to be bound by these Terms of Service.
+          </p>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© 2026 Olkvaj. All rights reserved.</span>
+        <span>
+          <a href="index.html">Home</a> &nbsp;·&nbsp;
+          <a href="settings.html">Settings</a> &nbsp;·&nbsp;
+          <a href="cookies.html">Cookies</a> &nbsp;·&nbsp;
+          <a href="terms.html">Terms</a>
+        </span>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>

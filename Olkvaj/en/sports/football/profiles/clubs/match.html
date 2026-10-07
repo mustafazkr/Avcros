@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Match Report | Olkvaj</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="_shared/club.css">
+  <link rel="stylesheet" href="_shared/match.css">
+</head>
+<body class="match-page">
+
+  <div id="app"></div>
+
+  <script>
+    // Read URL params before match.js runs
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      window.__MATCH_CLUB__ = params.get('club') || '';
+      window.__MATCH_ID__   = params.get('id')   || '';
+      window.__MATCH_FILE__ = params.get('file') || '';
+    })();
+  </script>
+
+  <script src="_shared/match.js"></script>
+
+</body>
+</html>

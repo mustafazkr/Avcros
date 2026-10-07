@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Cricket Teams — Olkvaj</title>
+  <style>
+    :root {
+      --black: #000000;
+      --bg: #050505;
+      --surface: #0d0d0d;
+      --border: #1f1f1f;
+      --white: #ffffff;
+      --text: #e5e5e5;
+      --muted: #8a8a8a;
+      --accent: #2563eb;
+
+      --light-bg: #ffffff;
+      --light-text: #111111;
+      --light-muted: #6b7280;
+      --light-border: #e5e7eb;
+      --light-surface: #f9fafb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100%;
+      background: var(--black);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 1rem;
+    }
+
+    .shell {
+      background: var(--bg);
+      border-radius: 24px;
+      position: relative;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 2rem);
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 24px;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      padding: 1rem 1.5rem;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-left a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-left a:hover {
+      color: var(--white);
+      background: var(--surface);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      color: var(--white);
+      white-space: nowrap;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-decoration: none;
+    }
+
+    .logo .dot { color: var(--accent); }
+
+    .header-spacer { width: 60px; }
+
+    .page-header {
+      position: relative;
+      z-index: 2;
+      padding: 3rem 2rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header h1 .accent { color: var(--accent); }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+    }
+
+    .search-wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      width: 100%;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 1rem 1.5rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: var(--white);
+      font-size: 0.95rem;
+      font-family: inherit;
+      min-width: 0;
+    }
+
+    .search-input::placeholder { color: #5a5a5a; }
+
+    .clubs-section {
+      position: relative;
+      z-index: 2;
+      background: var(--light-bg);
+      color: var(--light-text);
+      padding: 3.5rem 2rem 4rem;
+      border-top: 1px solid var(--light-border);
+    }
+
+    .clubs-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .btn-back-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      border: 1px solid var(--light-border);
+      color: var(--light-text);
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      margin-bottom: 1.75rem;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-back-light:hover {
+      background: var(--light-surface);
+      border-color: var(--light-text);
+    }
+
+    .clubs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .club-badge {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.15rem 0.6rem;
+      background: var(--light-bg);
+      border: 1px solid var(--light-border);
+      text-decoration: none;
+      color: var(--light-text);
+      transition: border-color 0.2s ease, transform 0.1s ease;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+    }
+
+    .club-badge:hover { border-color: var(--light-text); }
+    .club-badge:active { transform: scale(0.98); }
+
+    .club-badge-logo {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .club-badge-fallback {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-surface);
+      border: 1px solid var(--light-border);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--light-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.15rem;
+    }
+
+    .club-badge-name {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--light-text);
+      line-height: 1.2;
+    }
+
+    .flag-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.1rem;
+    }
+
+    .club-badge-flag {
+      width: 18px;
+      height: 12px;
+      object-fit: cover;
+      display: block;
+      border: 1px solid #000000;
+      border-radius: 1px;
+    }
+
+    .flag-wrap .flag-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%) translateY(3px);
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+
+    .flag-wrap:hover .flag-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Small red "Data Not Available" tag */
+    .no-data-tag {
+      display: inline-block;
+      background: #dc2626;
+      color: #ffffff;
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      padding: 2px 5px;
+      border-radius: 3px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .club-badge[data-profile="no"] {
+      cursor: not-allowed;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--light-muted);
+      font-size: 0.95rem;
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 1000px) {
+      .clubs-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 800px) {
+      .clubs-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 760px) {
+      .nav-left { display: none; }
+      .logo { position: static; transform: none; }
+      .header-spacer { display: none; }
+      .page-header { padding: 2rem 1.5rem 2rem; }
+      .search-wrap { padding: 0 1.5rem 2rem; }
+      .clubs-section { padding: 2.5rem 1.5rem 3rem; }
+    }
+    @media (max-width: 500px) {
+      .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="shell">
+
+    <header>
+      <div class="header-inner">
+        <nav class="nav-left">
+          <a href="index.html">Home</a>
+          <a href="football-club-list.html">Football</a>
+          <a href="cricket-team-list.html">Cricket</a>
+          <a href="#">Sports</a>
+          <a href="#">About</a>
+        </nav>
+        <a href="index.html" class="logo">Olkvaj<span class="dot">.</span></a>
+        <div class="header-spacer"></div>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1>All Cricket <span class="accent">Teams</span></h1>
+      <p>Browse every national cricket team in the Olkvaj archive — from Test-playing nations to the top associate sides.</p>
+    </section>
+
+    <section class="search-wrap">
+      <form class="search-box" onsubmit="event.preventDefault();">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" id="club-search"
+               placeholder="Filter teams by name..." autocomplete="off" />
+      </form>
+    </section>
+
+    <section class="clubs-section">
+      <div class="clubs-inner">
+
+        <a href="index.html" class="btn-back-light">← Back</a>
+
+        <div class="clubs-grid" id="clubs-grid">
+
+         <!-- ============ TEST NATIONS ============ -->
+<a href="../sports/cricket/profiles/teams/india.html" class="club-badge" data-club="India" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/india-nt.png" alt="India" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'IND'}))" />
+    <div class="club-badge-name">India</div>
+    <span class="flag-wrap"><img src="../images/flags/india.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">India</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/australia.html" class="club-badge" data-club="Australia" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/australia-nt.png" alt="Australia" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'AUS'}))" />
+    <div class="club-badge-name">Australia</div>
+    <span class="flag-wrap"><img src="../images/flags/australia.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Australia</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/england.html" class="club-badge" data-club="England" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/england-nt.png" alt="England" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ENG'}))" />
+    <div class="club-badge-name">England</div>
+    <span class="flag-wrap"><img src="../images/flags/england.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">England</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/afghanistan.html" class="club-badge" data-club="Afghanistan" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/afghanistan-nt.png" alt="Afghanistan" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'AFG'}))" />
+    <div class="club-badge-name">Afghanistan</div>
+    <span class="flag-wrap"><img src="../images/flags/afghanistan.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Afghanistan</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/south-africa.html" class="club-badge" data-club="South Africa" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/south-africa-nt.png" alt="South Africa" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SA'}))" />
+    <div class="club-badge-name">South Africa</div>
+    <span class="flag-wrap"><img src="../images/flags/south-africa.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">South Africa</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/new-zealand.html" class="club-badge" data-club="New Zealand" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/new-zealand-nt.png" alt="New Zealand" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NZ'}))" />
+    <div class="club-badge-name">New Zealand</div>
+    <span class="flag-wrap"><img src="../images/flags/new-zealand.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">New Zealand</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/sri-lanka.html" class="club-badge" data-club="Sri Lanka" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/sri-lanka-nt.png" alt="Sri Lanka" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SL'}))" />
+    <div class="club-badge-name">Sri Lanka</div>
+    <span class="flag-wrap"><img src="../images/flags/sri-lanka.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Sri Lanka</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/west-indies.html" class="club-badge" data-club="West Indies" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/west-indies-nt.png" alt="West Indies" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'WI'}))" />
+    <div class="club-badge-name">West Indies</div>
+    <span class="flag-wrap"><img src="../images/flags/west-indies.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">West Indies</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/bangladesh.html" class="club-badge" data-club="Bangladesh" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/bangladesh-nt.png" alt="Bangladesh" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'BAN'}))" />
+    <div class="club-badge-name">Bangladesh</div>
+    <span class="flag-wrap"><img src="../images/flags/bangladesh.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Bangladesh</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/zimbabwe.html" class="club-badge" data-club="Zimbabwe" data-profile="no">
+    <img src="../sports/cricket/teams/zimbabwe.png" alt="Zimbabwe" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'ZIM'}))" />
+    <div class="club-badge-name">Zimbabwe</div>
+    <span class="flag-wrap"><img src="../images/flags/zimbabwe.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Zimbabwe</span></span>
+  </a>
+  <a href="../sports/cricket/profiles/teams/ireland.html" class="club-badge" data-club="Ireland" data-profile="no">
+    <img src="../sports/cricket/national-teams-img/ireland-nt.png" alt="Ireland" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'IRE'}))" />
+    <div class="club-badge-name">Ireland</div>
+    <span class="flag-wrap"><img src="../images/flags/ireland.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Ireland</span></span>
+  </a>
+
+          <!-- ============ TOP ASSOCIATES ============ -->
+          <a href="../sports/cricket/profiles/teams/netherlands.html" class="club-badge" data-club="Netherlands" data-profile="no">
+            <img src="../sports/cricket/national-teams-img/netherlands-af.png" alt="Netherlands" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NED'}))" />
+            <div class="club-badge-name">Netherlands</div>
+            <span class="flag-wrap"><img src="../images/flags/netherlands.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Netherlands</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/scotland.html" class="club-badge" data-club="Scotland" data-profile="no">
+            <img src="../sports/cricket/teams/scotland.png" alt="Scotland" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'SCO'}))" />
+            <div class="club-badge-name">Scotland</div>
+            <span class="flag-wrap"><img src="../images/flags/scotland.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Scotland</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/nepal.html" class="club-badge" data-club="Nepal" data-profile="no">
+            <img src="../sports/cricket/teams/nepal.png" alt="Nepal" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NEP'}))" />
+            <div class="club-badge-name">Nepal</div>
+            <span class="flag-wrap"><img src="../images/flags/nepal.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Nepal</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/oman.html" class="club-badge" data-club="Oman" data-profile="no">
+            <img src="../sports/cricket/teams/oman.png" alt="Oman" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'OMA'}))" />
+            <div class="club-badge-name">Oman</div>
+            <span class="flag-wrap"><img src="../images/flags/oman.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Oman</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/uae.html" class="club-badge" data-club="United Arab Emirates" data-profile="no">
+            <img src="../sports/cricket/national-teams-img/uae-nt.png" alt="UAE" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'UAE'}))" />
+            <div class="club-badge-name">UAE</div>
+            <span class="flag-wrap"><img src="../images/flags/uae.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">UAE</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/usa.html" class="club-badge" data-club="United States" data-profile="no">
+            <img src="../sports/cricket/national-teams-img/usa-nt.png" alt="United States" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'USA'}))" />
+            <div class="club-badge-name">United States</div>
+            <span class="flag-wrap"><img src="../images/flags/united-states.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">United States</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/namibia.html" class="club-badge" data-club="Namibia" data-profile="no">
+            <img src="../sports/cricket/teams/namibia.png" alt="Namibia" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'NAM'}))" />
+            <div class="club-badge-name">Namibia</div>
+            <span class="flag-wrap"><img src="../images/flags/namibia.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Namibia</span></span>
+          </a>
+          <a href="../sports/cricket/profiles/teams/papua-new-guinea.html" class="club-badge" data-club="Papua New Guinea" data-profile="no">
+            <img src="../sports/cricket/teams/papua-new-guinea.png" alt="Papua New Guinea" class="club-badge-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'club-badge-fallback',textContent:'PNG'}))" />
+            <div class="club-badge-name">Papua New Guinea</div>
+            <span class="flag-wrap"><img src="../images/flags/papua-new-guinea.png" alt="" class="club-badge-flag" /><span class="flag-tooltip">Papua New Guinea</span></span>
+          </a>
+
+        </div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          No teams match your search.
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Disable "no profile" badges and inject the red tag
+    document.querySelectorAll('.club-badge[data-profile="no"]').forEach((badge) => {
+      badge.removeAttribute('href');
+      badge.addEventListener('click', (e) => e.preventDefault());
+
+      const flagWrap = badge.querySelector('.flag-wrap');
+      if (flagWrap) {
+        const tag = document.createElement('div');
+        tag.className = 'no-data-tag';
+        tag.textContent = 'Data Not Available';
+        flagWrap.parentNode.insertBefore(tag, flagWrap);
+      }
+    });
+
+    // Search filter
+    const input = document.getElementById("club-search");
+    const grid = document.getElementById("clubs-grid");
+    const badges = Array.from(grid.querySelectorAll(".club-badge"));
+    const empty = document.getElementById("empty-state");
+
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+
+      badges.forEach((badge) => {
+        const name = (badge.dataset.club || "").toLowerCase();
+        const match = q === "" || name.includes(q);
+        badge.style.display = match ? "" : "none";
+        if (match) visible++;
+      });
+
+      empty.hidden = visible !== 0;
+    });
+  </script>
+
+</body>
+</html>

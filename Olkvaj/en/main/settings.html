@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --warning-red: #dc2626;
+      --hover-bg: #f5f5f5;
+      --selected-bg: #f0f0f0;
+    }
+
+    body.dark-theme {
+      --bg-color: #0a0a0a;
+      --surface: #141414;
+      --text-main: #f5f5f5;
+      --text-muted: #8a8a8a;
+      --border-color: #262626;
+      --btn-black: #ffffff;
+      --btn-white: #1a1a1a;
+      --hover-bg: #1f1f1f;
+      --selected-bg: #222222;
+    }
+
+    body.no-animations *,
+    body.no-animations *::before,
+    body.no-animations *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav { display: flex; gap: 32px; }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions { display: flex; align-items: center; gap: 24px; }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .btn-secondary:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    .btn-danger {
+      background-color: transparent;
+      color: var(--warning-red);
+      border: 1px solid var(--warning-red);
+    }
+    .btn-danger:hover {
+      background-color: var(--warning-red);
+      color: #ffffff;
+    }
+
+    /* SETTINGS LAYOUT */
+    .settings-page {
+      padding: 60px 0 80px;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 60px;
+      align-items: flex-start;
+    }
+
+    .settings-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: sticky;
+      top: 40px;
+    }
+
+    .sidebar-btn {
+      background: transparent;
+      border: none;
+      text-align: left;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 0px;
+      transition: background 0.2s, color 0.2s;
+      border-left: 2px solid transparent;
+      outline: none;
+    }
+
+    .sidebar-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text-main);
+    }
+
+    .sidebar-btn.active {
+      background: var(--hover-bg);
+      color: var(--text-main);
+      font-weight: 600;
+      border-left: 2px solid var(--text-main);
+    }
+
+    .settings-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .tab-panel {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .tab-panel.active { display: flex; }
+
+    .settings-header { margin-bottom: 40px; }
+
+    .settings-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .settings-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .settings-block {
+      display: flex;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+      width: 100%;
+    }
+
+    .settings-block:first-of-type { border-top: 1px solid var(--border-color); }
+
+    .settings-block.row-layout {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .settings-text-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .settings-block > label,
+    .settings-text-content > label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .settings-block p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .settings-control {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    /* CUSTOM DROPDOWN */
+    .custom-select-wrapper {
+      position: relative;
+      width: 240px;
+    }
+
+    .custom-select-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 42px;
+      padding: 0 16px;
+      background-color: var(--surface);
+      border: 1px solid var(--border-color);
+      font-size: 0.9rem;
+      color: var(--text-main);
+      cursor: pointer;
+      border-radius: 0px;
+      transition: border-color 0.2s;
+      user-select: none;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .custom-select-trigger:hover { border-color: var(--text-main); }
+
+    .custom-select-trigger svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .custom-select-wrapper.open .custom-select-trigger svg {
+      transform: rotate(180deg);
+    }
+
+    .custom-options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      border-top: none;
+      display: none;
+      flex-direction: column;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      max-height: none;
+      height: auto;
+    }
+
+    .custom-select-wrapper.open .custom-options { display: flex; }
+
+    .custom-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      color: var(--text-main);
+      flex-shrink: 0;
+    }
+
+    .custom-option:hover { background: var(--hover-bg); }
+
+    .custom-option.selected {
+      background: var(--selected-bg);
+      font-weight: 600;
+    }
+
+    .custom-option.unavailable {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .warning-icon {
+      color: var(--warning-red);
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+
+    /* TOGGLE SWITCH */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background-color: var(--border-color);
+      transition: background-color 0.2s ease;
+      border-radius: 999px;
+      border: none;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      top: 3px;
+      background-color: #ffffff;
+      transition: transform 0.2s ease;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    input:checked + .slider { background-color: var(--btn-black); }
+
+    input:checked + .slider::before { transform: translateX(20px); }
+
+    body.dark-theme input:checked + .slider::before { background-color: #ffffff; }
+
+    /* THEME SELECTOR */
+    .theme-selector {
+      display: inline-flex;
+      border: 1px solid var(--border-color);
+      width: fit-content;
+    }
+
+    .theme-btn {
+      background: var(--surface);
+      border: none;
+      border-right: 1px solid var(--border-color);
+      padding: 10px 32px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-btn:last-child { border-right: none; }
+
+    .theme-btn:hover {
+      background: var(--hover-bg);
+      color: var(--text-main);
+    }
+
+    .theme-btn.active {
+      background: var(--btn-black);
+      color: var(--btn-white);
+      font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .settings-page {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .settings-sidebar {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 12px;
+      }
+      .sidebar-btn {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+      }
+      .sidebar-btn.active {
+        border-left: none;
+        border-bottom: 2px solid var(--text-main);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .settings-header h1 { font-size: 1.75rem; }
+      .settings-block.row-layout {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .settings-control { width: 100%; justify-content: flex-start; }
+      .custom-select-wrapper { width: 100%; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="settings.html" style="color: var(--text-main);">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../sports/football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+
+    <main class="settings-page">
+
+      <aside class="settings-sidebar">
+        <button class="sidebar-btn active" data-tab="account">Account</button>
+        <button class="sidebar-btn" data-tab="appearance">Appearance</button>
+        <button class="sidebar-btn" data-tab="accessibility">Accessibility</button>
+        <button class="sidebar-btn" data-tab="privacy">Data &amp; Privacy</button>
+      </aside>
+
+      <div class="settings-content">
+
+        <!-- ACCOUNT TAB -->
+        <div class="tab-panel active" id="tab-account">
+          <div class="settings-header">
+            <h1>Account</h1>
+            <p>Manage your account preferences and application behavior.</p>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Languages</label>
+              <p>Select your preferred language for the interface.</p>
+            </div>
+            <div class="settings-control">
+              <div class="custom-select-wrapper">
+                <div class="custom-select-trigger">
+                  <span class="selected-text">English</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option selected" data-value="en">English</div>
+                  <div class="custom-option unavailable" data-value="ps">Pashto <span class="warning-icon">&times;</span></div>
+                  <div class="custom-option unavailable" data-value="tr">Turkish <span class="warning-icon">&times;</span></div>
+                  <div class="custom-option unavailable" data-value="es">Spanish <span class="warning-icon">&times;</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Research Mode</label>
+              <p>Enable advanced analytics and raw data export options. Also required to unlock keyboard shortcuts on interactive pages.</p>
+            </div>
+            <div class="settings-control">
+              <label class="toggle-switch">
+                <input type="checkbox" id="researchToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label style="color: var(--warning-red);">Delete Account</label>
+              <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-danger" id="deleteAccountBtn">Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- APPEARANCE TAB -->
+        <div class="tab-panel" id="tab-appearance">
+          <div class="settings-header">
+            <h1>Appearance</h1>
+            <p>Customize how Olkvaj looks and feels.</p>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Theme</label>
+              <p>Choose between light and dark mode.</p>
+            </div>
+            <div class="settings-control">
+              <div class="theme-selector">
+                <button class="theme-btn active" data-theme="light">Light</button>
+                <button class="theme-btn" data-theme="dark">Dark</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Disable Animations</label>
+              <p>Turn off all motion effects and transitions throughout the interface.</p>
+            </div>
+            <div class="settings-control">
+              <label class="toggle-switch">
+                <input type="checkbox" id="animationToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACCESSIBILITY TAB -->
+        <div class="tab-panel" id="tab-accessibility">
+          <div class="settings-header">
+            <h1>Accessibility</h1>
+            <p>Adjust how information is formatted and displayed.</p>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Keyboard Shortcuts</label>
+              <p>Enable keyboard shortcuts for quick navigation and mode switching on interactive pages. Turn off if they interfere with your browser or system shortcuts.</p>
+            </div>
+            <div class="settings-control">
+              <label class="toggle-switch">
+                <input type="checkbox" id="keybindsToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Data Format</label>
+              <p>Choose how dates are displayed across the platform.</p>
+            </div>
+            <div class="settings-control">
+              <div class="custom-select-wrapper">
+                <div class="custom-select-trigger">
+                  <span class="selected-text">DD/MM/YYYY</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option selected" data-value="dmy">DD/MM/YYYY</div>
+                  <div class="custom-option" data-value="mdy">MM/DD/YYYY</div>
+                  <div class="custom-option" data-value="ymd">YYYY-MM-DD</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Calendar</label>
+              <p>Choose which calendar system dates are displayed in.</p>
+            </div>
+            <div class="settings-control">
+              <div class="custom-select-wrapper" id="calendarDropdown">
+                <div class="custom-select-trigger">
+                  <span class="selected-text">Gregorian</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option selected" data-value="gregorian">Gregorian</div>
+                  <div class="custom-option" data-value="islamic">Hijri</div>
+                  <div class="custom-option" data-value="persian">Solar Hijri</div>
+                  <div class="custom-option" data-value="chinese">Chinese</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Time Zone</label>
+              <p>Select your local time zone for match times and stats.</p>
+            </div>
+            <div class="settings-control">
+              <div class="custom-select-wrapper">
+                <div class="custom-select-trigger">
+                  <span class="selected-text">UTC (GMT+00:00)</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option" data-value="utc-8">PST (GMT-08:00)</div>
+                  <div class="custom-option" data-value="utc-5">EST (GMT-05:00)</div>
+                  <div class="custom-option selected" data-value="utc">UTC (GMT+00:00)</div>
+                  <div class="custom-option" data-value="utc+1">CET (GMT+01:00)</div>
+                  <div class="custom-option" data-value="utc+3">MSK (GMT+03:00)</div>
+                  <div class="custom-option" data-value="utc+4">GST (GMT+04:00)</div>
+                  <div class="custom-option" data-value="utc+5.5">IST (GMT+05:30)</div>
+                  <div class="custom-option" data-value="utc+8">CST (GMT+08:00)</div>
+                  <div class="custom-option" data-value="utc+9">JST (GMT+09:00)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATA & PRIVACY TAB -->
+        <div class="tab-panel" id="tab-privacy">
+          <div class="settings-header">
+            <h1>Data &amp; Privacy</h1>
+            <p>Control how your personal data is stored and managed.</p>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Download Your Data</label>
+              <p>Export a copy of your account data, including preferences and activity history.</p>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-secondary" id="downloadDataBtn">Download</button>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Clear Cache</label>
+              <p>Remove locally stored data. This won't affect your account or saved preferences.</p>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-danger" id="clearCacheBtn">Clear</button>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label>Cookie Preferences</label>
+              <p>Manage which cookies Olkvaj can use for analytics, personalization, and ads.</p>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-secondary" id="cookiePrefsBtn">Manage</button>
+            </div>
+          </div>
+
+          <div class="settings-block row-layout">
+            <div class="settings-text-content">
+              <label style="color: var(--warning-red);">Log Out of All Devices</label>
+              <p>Sign out of every device currently logged into your account. Useful if you suspect unauthorized access.</p>
+            </div>
+            <div class="settings-control">
+              <button class="btn btn-danger" id="logoutAllBtn">Log Out</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    /* SIDEBAR TAB SWITCHING */
+    const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    sidebarBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        sidebarBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        tabPanels.forEach(p => p.classList.remove('active'));
+        document.getElementById('tab-' + target).classList.add('active');
+      });
+    });
+
+    /* CUSTOM DROPDOWN LOGIC */
+    const dropdownWrappers = document.querySelectorAll('.custom-select-wrapper');
+
+    dropdownWrappers.forEach(wrapper => {
+      const trigger = wrapper.querySelector('.custom-select-trigger');
+      const options = wrapper.querySelectorAll('.custom-option');
+      const selectedText = wrapper.querySelector('.selected-text');
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownWrappers.forEach(w => {
+          if (w !== wrapper) w.classList.remove('open');
+        });
+        wrapper.classList.toggle('open');
+      });
+
+      options.forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (option.classList.contains('unavailable')) return;
+          selectedText.textContent = option.textContent.trim();
+          options.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+          wrapper.classList.remove('open');
+
+          if (wrapper.id === 'calendarDropdown') {
+            localStorage.setItem('olkvaj_calendar', option.getAttribute('data-value'));
+          }
+        });
+      });
+    });
+
+    document.addEventListener('click', () => {
+      dropdownWrappers.forEach(w => w.classList.remove('open'));
+    });
+
+    /* THEME SELECTOR */
+    const themeBtns = document.querySelectorAll('.theme-btn');
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+      } else if (theme === 'light') {
+        document.body.classList.remove('dark-theme');
+      }
+      localStorage.setItem('olkvaj_theme', theme);
+    }
+
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.getAttribute('data-theme');
+        themeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyTheme(theme);
+      });
+    });
+
+    const savedTheme = localStorage.getItem('olkvaj_theme') || 'light';
+    applyTheme(savedTheme);
+    themeBtns.forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-theme') === savedTheme);
+    });
+
+    /* CALENDAR — restore saved choice on load */
+    const savedCalendar = localStorage.getItem('olkvaj_calendar') || 'gregorian';
+    const calendarWrapper = document.getElementById('calendarDropdown');
+    if (calendarWrapper) {
+      const opts = calendarWrapper.querySelectorAll('.custom-option');
+      const txt = calendarWrapper.querySelector('.selected-text');
+      opts.forEach(o => {
+        const match = o.getAttribute('data-value') === savedCalendar;
+        o.classList.toggle('selected', match);
+        if (match) txt.textContent = o.textContent.trim();
+      });
+    }
+
+    /* RESEARCH MODE TOGGLE — persists to localStorage */
+    const researchToggle = document.getElementById('researchToggle');
+    if (researchToggle) {
+      researchToggle.checked = localStorage.getItem('olkvaj_research_mode') === 'on';
+      researchToggle.addEventListener('change', (e) => {
+        localStorage.setItem('olkvaj_research_mode', e.target.checked ? 'on' : 'off');
+      });
+    }
+
+    /* KEYBOARD SHORTCUTS TOGGLE — persists to localStorage */
+    const keybindsToggle = document.getElementById('keybindsToggle');
+    if (keybindsToggle) {
+      keybindsToggle.checked = localStorage.getItem('olkvaj_keybinds') !== 'off';
+      keybindsToggle.addEventListener('change', (e) => {
+        localStorage.setItem('olkvaj_keybinds', e.target.checked ? 'on' : 'off');
+      });
+    }
+
+    /* DISABLE ANIMATIONS TOGGLE */
+    const animationToggle = document.getElementById('animationToggle');
+    if (animationToggle) {
+      if (localStorage.getItem('olkvaj_animations') === 'off') {
+        document.body.classList.add('no-animations');
+        animationToggle.checked = true;
+      }
+      animationToggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          document.body.classList.add('no-animations');
+          localStorage.setItem('olkvaj_animations', 'off');
+        } else {
+          document.body.classList.remove('no-animations');
+          localStorage.setItem('olkvaj_animations', 'on');
+        }
+      });
+    }
+
+    /* DATA & PRIVACY BUTTONS */
+    document.getElementById('downloadDataBtn').addEventListener('click', () => {
+      console.log('Downloading your data...');
+    });
+
+    document.getElementById('clearCacheBtn').addEventListener('click', () => {
+      const confirmed = confirm('Are you sure you want to clear your cache?');
+      if (confirmed) console.log('Cache cleared.');
+    });
+
+    document.getElementById('cookiePrefsBtn').addEventListener('click', () => {
+      console.log('Opening cookie preferences...');
+    });
+
+    document.getElementById('logoutAllBtn').addEventListener('click', () => {
+      const confirmed = confirm(
+        'This will sign you out of every device currently logged into your account. Continue?'
+      );
+      if (confirmed) console.log('Logging out of all devices...');
+    });
+
+    /* DELETE ACCOUNT */
+    document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+      const confirmed = confirm(
+        'WARNING: This will permanently delete your account and all associated data. This action cannot be undone. Are you sure?'
+      );
+      if (confirmed) {
+        const doubleConfirmed = confirm('Are you absolutely sure? This is your last chance to cancel.');
+        if (doubleConfirmed) console.log('Account deletion requested.');
+      }
+    });
+  </script>
+
+</body>
+</html>

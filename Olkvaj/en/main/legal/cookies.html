@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Policy — Olkvaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f9f9f9;
+      --surface: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --border-color: #e5e5e5;
+      --btn-black: #000000;
+      --btn-white: #ffffff;
+      --warning-red: #dc2626;
+      --hover-bg: #f5f5f5;
+      --selected-bg: #f0f0f0;
+    }
+
+    body.dark-theme {
+      --bg-color: #0a0a0a;
+      --surface: #141414;
+      --text-main: #f5f5f5;
+      --text-muted: #8a8a8a;
+      --border-color: #262626;
+      --btn-black: #ffffff;
+      --btn-white: #1a1a1a;
+      --hover-bg: #1f1f1f;
+      --selected-bg: #222222;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    *:focus { outline: none; }
+    button:focus { outline: none; }
+    button:focus-visible { outline: none; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text-main); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-actions a.login-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 0px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: inherit;
+      outline: none;
+      white-space: nowrap;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background-color: var(--btn-black);
+      color: var(--btn-white);
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* PAGE LAYOUT */
+    .page {
+      padding: 60px 0 100px;
+      max-width: 780px;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .page-header .meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .page-header .meta strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Content */
+    .content h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+
+    .content h2:first-of-type { margin-top: 0; }
+
+    .content h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    .content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .content ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .content ul li {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .content ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .content a {
+      color: var(--text-main);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .content a:hover {
+      opacity: 0.7;
+    }
+
+    /* Cookie category cards */
+    .cookie-card {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .cookie-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cookie-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+    }
+
+    .cookie-tag.required {
+      border-color: var(--text-main);
+      color: var(--text-main);
+    }
+
+    .cookie-card p {
+      margin-bottom: 0;
+      font-size: 0.88rem;
+    }
+
+    .cookie-card p + p {
+      margin-top: 8px;
+    }
+
+    /* Table */
+    .cookie-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .cookie-table th,
+    .cookie-table td {
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    .cookie-table th {
+      background: var(--hover-bg);
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.78rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .cookie-table td {
+      color: var(--text-muted);
+    }
+
+    .cookie-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .cookie-table code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      background: var(--hover-bg);
+      padding: 2px 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Manage button area */
+    .manage-section {
+      margin-top: 48px;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .manage-section-text h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .manage-section-text p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .manage-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      background: var(--btn-black);
+      color: var(--btn-white);
+      border: 1px solid transparent;
+      border-radius: 0px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .manage-btn:hover {
+      opacity: 0.85;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 0;
+      margin-top: 60px;
+    }
+
+    footer .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+
+    /* ============================================ */
+    /* COOKIE PREFERENCES MODAL                     */
+    /* ============================================ */
+
+    .cookie-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+      backdrop-filter: blur(2px);
+    }
+
+    .cookie-modal-overlay.show {
+      display: flex;
+    }
+
+    .cookie-modal {
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      border-radius: 0px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .cookie-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cookie-modal-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .cookie-modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+
+    .cookie-modal-close:hover {
+      color: var(--text-main);
+    }
+
+    .cookie-modal-body {
+      padding: 0 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .cookie-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cookie-row:last-child {
+      border-bottom: none;
+    }
+
+    .cookie-row-text h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .cookie-row-text p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .cookie-row-control {
+      flex-shrink: 0;
+    }
+
+    .cookie-modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-color);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 0px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      outline: none;
+    }
+
+    .cookie-btn-ghost {
+      background: transparent;
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+
+    .cookie-btn-ghost:hover {
+      background: var(--hover-bg);
+      border-color: var(--text-main);
+    }
+
+    .cookie-btn-solid {
+      background: var(--btn-black);
+      color: var(--btn-white);
+    }
+
+    .cookie-btn-solid:hover {
+      opacity: 0.85;
+    }
+
+    /* Toggle */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-switch .slider {
+      position: absolute;
+      inset: 0;
+      background-color: var(--border-color);
+      transition: background-color 0.2s ease;
+      border-radius: 999px;
+    }
+
+    .toggle-switch .slider::before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      top: 3px;
+      background-color: #ffffff;
+      transition: transform 0.2s ease;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .toggle-switch input:checked + .slider {
+      background-color: var(--btn-black);
+    }
+
+    .toggle-switch input:checked + .slider::before {
+      transform: translateX(20px);
+    }
+
+    .toggle-switch.locked {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      nav { display: none; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .page-header h1 { font-size: 2rem; }
+      .content h2 { font-size: 1.2rem; }
+      .manage-section { flex-direction: column; align-items: flex-start; }
+      .manage-btn { width: 100%; }
+      .cookie-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .cookie-table { font-size: 0.78rem; }
+      .cookie-table th,
+      .cookie-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="../sports/football/profiles/players/" class="btn btn-primary">Browse Players</a>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <div class="page-header">
+        <h1>Cookie Policy</h1>
+        <p class="meta">
+          <strong>Last updated:</strong> September 2026 &nbsp;•&nbsp;
+          <strong>Effective:</strong> September 2026
+        </p>
+      </div>
+
+      <div class="content">
+
+        <p>
+          This Cookie Policy explains how Olkvaj ("we", "us", or "our") uses cookies and similar tracking technologies on our website and services. It describes what these technologies are, why we use them, and your rights to control their use.
+        </p>
+
+        <p>
+          By continuing to use Olkvaj, you agree to our use of cookies as described in this policy, subject to the choices you make in the cookie consent banner.
+        </p>
+
+        <h2>1. What are cookies?</h2>
+        <p>
+          Cookies are small text files that are placed on your device (computer, phone, tablet) when you visit a website. They are widely used to make websites work, remember your preferences, and provide information to the site's owners.
+        </p>
+        <p>
+          We also use similar technologies such as <strong>local storage</strong> and <strong>pixel tags</strong>, which function in much the same way. When we refer to "cookies" in this policy, we mean all of these technologies.
+        </p>
+
+        <h2>2. How we use cookies</h2>
+        <p>
+          Olkvaj uses cookies for the following purposes:
+        </p>
+
+        <div class="cookie-card">
+          <h3>Essential Cookies <span class="cookie-tag required">Always On</span></h3>
+          <p>
+            These cookies are strictly necessary for the website to function. They enable core features such as logging in, maintaining your session, protecting against security threats, and remembering your cookie consent choice.
+          </p>
+          <p>
+            You cannot disable these cookies, as the site would not work without them.
+          </p>
+        </div>
+
+        <div class="cookie-card">
+          <h3>Analytics Cookies <span class="cookie-tag">Optional</span></h3>
+          <p>
+            These cookies help us understand how visitors interact with Olkvaj — which pages are visited most, how long users stay, and where they come from. We use this information to improve our content and user experience.
+          </p>
+          <p>
+            You can opt out at any time through our cookie preferences.
+          </p>
+        </div>
+
+        <div class="cookie-card">
+          <h3>Preference Cookies <span class="cookie-tag">Optional</span></h3>
+          <p>
+            These cookies remember choices you make — such as your preferred theme (light/dark), interface language, time zone, and data format. They personalize your experience so you don't have to reconfigure these settings on every visit.
+          </p>
+        </div>
+
+        <div class="cookie-card">
+          <h3>Advertising Cookies <span class="cookie-tag">Optional</span></h3>
+          <p>
+            Olkvaj displays advertisements through third-party ad networks. These cookies are used to show you relevant ads, limit how often you see the same ad, and measure the effectiveness of ad campaigns.
+          </p>
+          <p>
+            If you disable advertising cookies, you will still see ads, but they will be less relevant to your interests.
+          </p>
+        </div>
+
+        <h2>3. Specific cookies we use</h2>
+        <p>
+          The table below lists the main cookies and similar technologies we use, their purpose, and how long they remain on your device.
+        </p>
+
+        <table class="cookie-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Purpose</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>olkvaj_session</code></td>
+              <td>Essential</td>
+              <td>Maintains your login session</td>
+              <td>Session</td>
+            </tr>
+            <tr>
+              <td><code>olkvaj_cookie_consent</code></td>
+              <td>Essential</td>
+              <td>Stores your cookie preferences</td>
+              <td>12 months</td>
+            </tr>
+            <tr>
+              <td><code>olkvaj_theme</code></td>
+              <td>Preference</td>
+              <td>Remembers your light/dark theme choice</td>
+              <td>12 months</td>
+            </tr>
+            <tr>
+              <td><code>olkvaj_lang</code></td>
+              <td>Preference</td>
+              <td>Remembers your interface language</td>
+              <td>12 months</td>
+            </tr>
+            <tr>
+              <td><code>olkvaj_tz</code></td>
+              <td>Preference</td>
+              <td>Remembers your selected time zone</td>
+              <td>12 months</td>
+            </tr>
+            <tr>
+              <td><code>_ga</code>, <code>_gid</code></td>
+              <td>Analytics</td>
+              <td>Google Analytics — distinguishes users</td>
+              <td>2 years / 24 hours</td>
+            </tr>
+            <tr>
+              <td><code>_gads</code>, <code>IDE</code></td>
+              <td>Advertising</td>
+              <td>Google AdSense — ad targeting &amp; frequency</td>
+              <td>13 months</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>4. Third-party cookies</h2>
+        <p>
+          Some cookies on Olkvaj are placed by third-party services we use. These include:
+        </p>
+        <ul>
+          <li><strong>Google Analytics</strong> — for understanding site traffic and user behavior.</li>
+          <li><strong>Google AdSense</strong> — for displaying advertisements.</li>
+          <li><strong>Payment processors</strong> — if you subscribe to a paid plan.</li>
+        </ul>
+        <p>
+          These third parties may collect information about your activity across different websites. We do not control these cookies — please refer to each provider's own privacy policy for more details.
+        </p>
+
+        <h2>5. Your rights and choices</h2>
+        <p>
+          Depending on where you live, you may have the following rights:
+        </p>
+        <ul>
+          <li>Refuse non-essential cookies when you first visit the site.</li>
+          <li>Change your cookie preferences at any time via <a href="settings.html">Settings → Data &amp; Privacy</a>.</li>
+          <li>Delete cookies already stored on your device through your browser settings.</li>
+          <li>Request access to, or deletion of, personal data we hold about you.</li>
+        </ul>
+
+        <h2>6. Managing cookies in your browser</h2>
+        <p>
+          Most web browsers allow you to control cookies through their settings. You can usually find these options in the "Privacy" or "Security" section of your browser. Disabling cookies may affect how Olkvaj functions, and some features may not work correctly.
+        </p>
+        <p>
+          For more information about cookies and how to manage them, visit <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener">allaboutcookies.org</a>.
+        </p>
+
+        <h2>7. Changes to this policy</h2>
+        <p>
+          We may update this Cookie Policy from time to time to reflect changes in technology, regulation, or our business practices. When we make significant changes, we will notify you by updating the "Last updated" date at the top of this page and, where required, by showing a new cookie consent banner.
+        </p>
+
+        <h2>8. Contact us</h2>
+        <p>
+          If you have any questions about this Cookie Policy or how we handle your data, please contact us at:
+        </p>
+        <p>
+          <strong>Email:</strong> privacy@olkvaj.com<br>
+          <strong>Website:</strong> <a href="index.html">olkvaj.com</a>
+        </p>
+
+      </div>
+
+      <!-- Manage Preferences section -->
+      <div class="manage-section">
+        <div class="manage-section-text">
+          <h3>Want to change your cookie preferences?</h3>
+          <p>You can update which cookies Olkvaj can use at any time.</p>
+        </div>
+        <button class="manage-btn" id="openCookieModal">Manage Cookies</button>
+      </div>
+
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© 2026 Olkvaj. All rights reserved.</span>
+        <span>
+          <a href="index.html">Home</a> &nbsp;·&nbsp;
+          <a href="settings.html">Settings</a> &nbsp;·&nbsp;
+          <a href="cookies.html">Cookies</a>
+        </span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =================================================== -->
+  <!-- COOKIE PREFERENCES MODAL                            -->
+  <!-- =================================================== -->
+  <div class="cookie-modal-overlay" id="cookieModal">
+    <div class="cookie-modal">
+      <div class="cookie-modal-header">
+        <h2>Cookie Preferences</h2>
+        <button class="cookie-modal-close" id="cookieModalClose" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="cookie-modal-body">
+
+        <div class="cookie-row">
+          <div class="cookie-row-text">
+            <h4>Essential Cookies</h4>
+            <p>Required for the site to function — login sessions, security, and core features. These cannot be turned off.</p>
+          </div>
+          <div class="cookie-row-control">
+            <label class="toggle-switch locked">
+              <input type="checkbox" checked disabled>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="cookie-row">
+          <div class="cookie-row-text">
+            <h4>Analytics Cookies</h4>
+            <p>Help us understand how visitors use Olkvaj so we can improve the experience.</p>
+          </div>
+          <div class="cookie-row-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="cookieAnalytics">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="cookie-row">
+          <div class="cookie-row-text">
+            <h4>Preference Cookies</h4>
+            <p>Remember your settings such as theme, language, and time zone.</p>
+          </div>
+          <div class="cookie-row-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="cookiePreferences">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="cookie-row">
+          <div class="cookie-row-text">
+            <h4>Advertising Cookies</h4>
+            <p>Used by our ad partners to show relevant ads and measure their performance.</p>
+          </div>
+          <div class="cookie-row-control">
+            <label class="toggle-switch">
+              <input type="checkbox" id="cookieAds">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="cookie-modal-footer">
+        <button class="cookie-btn cookie-btn-ghost" id="cookieModalReject">Reject All</button>
+        <button class="cookie-btn cookie-btn-solid" id="cookieSavePrefs">Save Preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================ */
+    /* COOKIE PREFERENCES MODAL (shared with banner logic) */
+    /* ============================================ */
+    const COOKIE_KEY = 'olkvaj_cookie_consent';
+
+    const modal = document.getElementById('cookieModal');
+    const modalClose = document.getElementById('cookieModalClose');
+    const toggleAnalytics = document.getElementById('cookieAnalytics');
+    const togglePreferences = document.getElementById('cookiePreferences');
+    const toggleAds = document.getElementById('cookieAds');
+    const btnModalReject = document.getElementById('cookieModalReject');
+    const btnSavePrefs = document.getElementById('cookieSavePrefs');
+    const openModalBtn = document.getElementById('openCookieModal');
+
+    function getConsent() {
+      try {
+        return JSON.parse(localStorage.getItem(COOKIE_KEY));
+      } catch {
+        return null;
+      }
+    }
+
+    function saveConsent(consent) {
+      consent.timestamp = Date.now();
+      localStorage.setItem(COOKIE_KEY, JSON.stringify(consent));
+    }
+
+    openModalBtn.addEventListener('click', () => {
+      const consent = getConsent() || { analytics: true, preferences: true, ads: true };
+      toggleAnalytics.checked = consent.analytics;
+      togglePreferences.checked = consent.preferences;
+      toggleAds.checked = consent.ads;
+      modal.classList.add('show');
+    });
+
+    modalClose.addEventListener('click', () => modal.classList.remove('show'));
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('show');
+    });
+
+    btnModalReject.addEventListener('click', () => {
+      saveConsent({ essential: true, analytics: false, preferences: false, ads: false });
+      modal.classList.remove('show');
+    });
+
+    btnSavePrefs.addEventListener('click', () => {
+      saveConsent({
+        essential: true,
+        analytics: toggleAnalytics.checked,
+        preferences: togglePreferences.checked,
+        ads: toggleAds.checked
+      });
+      modal.classList.remove('show');
+    });
+  </script>
+
+</body>
+</html>
