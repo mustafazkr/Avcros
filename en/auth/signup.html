@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up — Avcros</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../_shared/auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <header class="auth-header">
+      <a href="../main/index.html" class="auth-brand">AVCROS</a>
+    </header>
+
+    <main class="auth-main">
+      <div class="auth-card">
+        <h1 class="auth-title">Create account</h1>
+        <p class="auth-subtitle">Join Avcros to save workspaces and share your analysis.</p>
+
+        <form class="auth-form" id="signupForm" novalidate>
+          <label class="auth-field">
+            <span class="auth-label">Email</span>
+            <input type="email" id="email" required autocomplete="email" autofocus>
+          </label>
+
+          <label class="auth-field">
+            <span class="auth-label">Display name</span>
+            <input type="text" id="displayName" autocomplete="nickname">
+            <span class="auth-hint">Optional. Defaults to your email prefix.</span>
+          </label>
+
+          <label class="auth-field">
+            <span class="auth-label">Password</span>
+            <input type="password" id="password" required autocomplete="new-password" minlength="6">
+            <span class="auth-hint">At least 6 characters.</span>
+          </label>
+
+          <button type="submit" class="auth-submit" id="submitBtn">Create account</button>
+        </form>
+
+        <div class="auth-message" id="authMessage" hidden></div>
+
+        <p class="auth-alt">
+          Already have an account? <a href="signin.html">Sign in</a>
+        </p>
+      </div>
+    </main>
+
+    <footer class="auth-footer">
+      <a href="../main/index.html">Home</a>
+      <a href="../main/settings.html">Settings</a>
+    </footer>
+  </div>
+
+  <script src="../_shared/supabase-config.js"></script>
+  <script src="../_shared/auth.js"></script>
+  <script>
+    (function () {
+      const form = document.getElementById('signupForm');
+      const emailInput = document.getElementById('email');
+      const nameInput = document.getElementById('displayName');
+      const passInput = document.getElementById('password');
+      const submitBtn = document.getElementById('submitBtn');
+      const msg = document.getElementById('authMessage');
+
+      function showMessage(text, type) {
+        msg.textContent = text;
+        msg.className = 'auth-message ' + (type || '');
+        msg.hidden = false;
+      }
+
+      function hideMessage() {
+        msg.hidden = true;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideMessage();
+
+        const email = emailInput.value.trim();
+        const password = passInput.value;
+        const displayName = nameInput.value.trim();
+
+        if (!email || !password) {
+          showMessage('Email and password are required.', 'error');
+          return;
+        }
+        if (password.length < 6) {
+          showMessage('Password must be at least 6 characters.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating account…';
+
+        try {
+          const result = await AvcrosAuth.signUp(email, password, displayName);
+
+          if (result.user && !result.session) {
+            // Email confirmation is on
+            showMessage('Account created. Check your email to confirm, then sign in.', 'success');
+            form.reset();
+          } else {
+            // Auto-signed in — redirect
+            showMessage('Account created. Redirecting…', 'success');
+            setTimeout(() => {
+              window.location.href = '../main/index.html';
+            }, 700);
+          }
+        } catch (err) {
+          showMessage(err.message || 'Something went wrong. Try again.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create account';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
