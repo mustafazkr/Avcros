@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — Avcros</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../_shared/auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <header class="auth-header">
+      <a href="../main/index.html" class="auth-brand">AVCROS</a>
+    </header>
+
+    <main class="auth-main">
+      <div class="auth-card">
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Sign in to continue to Avcros.</p>
+
+        <form class="auth-form" id="signinForm" novalidate>
+          <label class="auth-field">
+            <span class="auth-label">Email</span>
+            <input type="email" id="email" required autocomplete="email" autofocus>
+          </label>
+
+          <label class="auth-field">
+            <span class="auth-label">Password</span>
+            <input type="password" id="password" required autocomplete="current-password">
+          </label>
+
+          <button type="submit" class="auth-submit" id="submitBtn">Sign in</button>
+        </form>
+
+        <div class="auth-message" id="authMessage" hidden></div>
+
+        <p class="auth-alt">
+          Don't have an account? <a href="signup.html">Sign up</a>
+        </p>
+      </div>
+    </main>
+
+    <footer class="auth-footer">
+      <a href="../main/index.html">Home</a>
+      <a href="../main/settings.html">Settings</a>
+    </footer>
+  </div>
+
+  <script src="../_shared/supabase-config.js"></script>
+  <script src="../_shared/auth.js"></script>
+  <script>
+    (function () {
+      const form = document.getElementById('signinForm');
+      const emailInput = document.getElementById('email');
+      const passInput = document.getElementById('password');
+      const submitBtn = document.getElementById('submitBtn');
+      const msg = document.getElementById('authMessage');
+
+      function showMessage(text, type) {
+        msg.textContent = text;
+        msg.className = 'auth-message ' + (type || '');
+        msg.hidden = false;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        msg.hidden = true;
+
+        const email = emailInput.value.trim();
+        const password = passInput.value;
+
+        if (!email || !password) {
+          showMessage('Email and password are required.', 'error');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in…';
+
+        try {
+          await AvcrosAuth.signIn(email, password);
+          showMessage('Signed in. Redirecting…', 'success');
+          setTimeout(() => {
+            window.location.href = '../main/index.html';
+          }, 500);
+        } catch (err) {
+          showMessage(err.message || 'Invalid email or password.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign in';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
