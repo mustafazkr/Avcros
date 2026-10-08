@@ -283,3 +283,170 @@ body {
   font-weight: 500;
 }
 .auth-terms a:hover { opacity: 0.7; }
+
+
+/* ============================================================
+   OAuth buttons, remember toggle, password strength,
+   forgot-password link, resend confirmation
+   ============================================================ */
+
+/* --- OAuth divider --- */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px 0 18px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+
+/* --- OAuth button row --- */
+.auth-oauth-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.auth-oauth-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  min-height: 42px;
+}
+.auth-oauth-btn:hover {
+  background: var(--hover-bg);
+  border-color: var(--text-main);
+}
+.auth-oauth-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* --- Remember-me row --- */
+.auth-remember {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.auth-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+.auth-checkbox input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.auth-checkbox input:checked {
+  background: var(--btn-black);
+  border-color: var(--btn-black);
+}
+.auth-checkbox input:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid var(--btn-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.auth-checkbox:hover { color: var(--text-main); }
+
+.auth-forgot-link {
+  font-size: 0.8rem;
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 500;
+}
+.auth-forgot-link:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+/* --- Password strength meter --- */
+.auth-strength {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+.auth-strength-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border-color);
+  transition: background 0.2s ease;
+}
+.auth-strength[data-level="1"] .auth-strength-bar:nth-child(1) { background: #dc2626; }
+.auth-strength[data-level="2"] .auth-strength-bar:nth-child(-n+2) { background: #f59e0b; }
+.auth-strength[data-level="3"] .auth-strength-bar { background: #16a34a; }
+
+.auth-strength-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  min-height: 1em;
+}
+.auth-strength-label[data-level="1"] { color: #dc2626; }
+.auth-strength-label[data-level="2"] { color: #f59e0b; }
+.auth-strength-label[data-level="3"] { color: #16a34a; }
+
+/* --- Resend confirmation inline block --- */
+.auth-resend {
+  display: none;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.auth-resend.show { display: block; }
+.auth-resend button {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+}
+.auth-resend button:hover { opacity: 0.7; }
