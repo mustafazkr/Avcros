@@ -1,3 +1,7 @@
+// Avcros — Auth module
+// Thin wrapper over Supabase Auth. Loads the Supabase client from CDN
+// on demand, initializes it once, and exposes simple helpers.
+
 (function () {
   'use strict';
 
@@ -19,10 +23,9 @@
 
   async function init() {
     if (_initPromise) return _initPromise;
-
     _initPromise = (async () => {
       if (!window.AVCROS_SUPABASE || !window.AVCROS_SUPABASE.url) {
-        throw new Error('Supabase config not loaded. Include supabase-config.js before auth.js.');
+        throw new Error('Supabase config not loaded.');
       }
       await loadScript(SUPABASE_CDN);
       if (!window.supabase || !window.supabase.createClient) {
@@ -42,7 +45,6 @@
       );
       return _client;
     })();
-
     return _initPromise;
   }
 
@@ -51,19 +53,21 @@
     return init();
   }
 
-  async function signUp(email, password, displayName) {
+  /* ---------- Signup ---------- */
+  async function signUp(email, password, username) {
     const client = await getClient();
     const { data, error } = await client.auth.signUp({
       email,
       password,
       options: {
-        data: { display_name: displayName || email.split('@')[0] }
+        data: { username, display_name: username }
       }
     });
     if (error) throw error;
     return data;
   }
 
+  /* ---------- Signin with password ---------- */
   async function signIn(email, password) {
     const client = await getClient();
     const { data, error } = await client.auth.signInWithPassword({ email, password });
@@ -71,12 +75,25 @@
     return data;
   }
 
+  /* ---------- Signin with OAuth provider ---------- */
+  async function signInWithOAuth(provider, redirectTo) {
+    const client = await getClient();
+    const { data, error } = await client.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: redirectTo || window.location.origin }
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  /* ---------- Sign out ---------- */
   async function signOut() {
     const client = await getClient();
     const { error } = await client.auth.signOut();
     if (error) throw error;
   }
 
+  /* ---------- Current user / session ---------- */
   async function getUser() {
     const client = await getClient();
     const { data: { user } } = await client.auth.getUser();
@@ -102,6 +119,47 @@
     return data;
   }
 
+  /* ---------- Username availability ---------- */
+  async function checkUsernameAvailable(username) {
+    const client = await getClient();
+    const { data, error } = await client
+      .from('users')
+      .select('username')
+      .ilike('username', username)
+      .limit(1);
+    if (error) throw error;
+    return !data || data.length === 0;
+  }
+
+  /* ---------- Password reset ---------- */
+  async function sendPasswordReset(email, redirectTo) {
+    const client = await getClient();
+    const { data, error } = await client.auth.resetPasswordForEmail(email, {
+      redirectTo
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  async function updatePassword(newPassword) {
+    const client = await getClient();
+    const { data, error } = await client.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+    return data;
+  }
+
+  /* ---------- Resend confirmation email ---------- */
+  async function resendConfirmation(email) {
+    const client = await getClient();
+    const { data, error } = await client.auth.resend({
+      type: 'signup',
+      email
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  /* ---------- Auth state observer ---------- */
   async function onAuthChange(callback) {
     const client = await getClient();
     const { data } = client.auth.onAuthStateChange(callback);
@@ -112,10 +170,15 @@
     init,
     signUp,
     signIn,
+    signInWithOAuth,
     signOut,
     getUser,
     getSession,
     getProfile,
+    checkUsernameAvailable,
+    sendPasswordReset,
+    updatePassword,
+    resendConfirmation,
     onAuthChange,
     getClient
   };
