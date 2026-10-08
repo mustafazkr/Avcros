@@ -1,0 +1,122 @@
+(function () {
+  'use strict';
+
+  const SUPABASE_CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+
+  let _client = null;
+  let _initPromise = null;
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) return resolve();
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('Failed to load ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function init() {
+    if (_initPromise) return _initPromise;
+
+    _initPromise = (async () => {
+      if (!window.AVCROS_SUPABASE || !window.AVCROS_SUPABASE.url) {
+        throw new Error('Supabase config not loaded. Include supabase-config.js before auth.js.');
+      }
+      await loadScript(SUPABASE_CDN);
+      if (!window.supabase || !window.supabase.createClient) {
+        throw new Error('Supabase client library failed to load from CDN.');
+      }
+      _client = window.supabase.createClient(
+        window.AVCROS_SUPABASE.url,
+        window.AVCROS_SUPABASE.anonKey,
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            storageKey: 'avcros_auth'
+          }
+        }
+      );
+      return _client;
+    })();
+
+    return _initPromise;
+  }
+
+  async function getClient() {
+    if (_client) return _client;
+    return init();
+  }
+
+  async function signUp(email, password, displayName) {
+    const client = await getClient();
+    const { data, error } = await client.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { display_name: displayName || email.split('@')[0] }
+      }
+    });
+    if (error) throw error;
+    return data;
+  }
+
+  async function signIn(email, password) {
+    const client = await getClient();
+    const { data, error } = await client.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return data;
+  }
+
+  async function signOut() {
+    const client = await getClient();
+    const { error } = await client.auth.signOut();
+    if (error) throw error;
+  }
+
+  async function getUser() {
+    const client = await getClient();
+    const { data: { user } } = await client.auth.getUser();
+    return user;
+  }
+
+  async function getSession() {
+    const client = await getClient();
+    const { data: { session } } = await client.auth.getSession();
+    return session;
+  }
+
+  async function getProfile() {
+    const user = await getUser();
+    if (!user) return null;
+    const client = await getClient();
+    const { data, error } = await client
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+    if (error) throw error;
+    return data;
+  }
+
+  async function onAuthChange(callback) {
+    const client = await getClient();
+    const { data } = client.auth.onAuthStateChange(callback);
+    return data.subscription;
+  }
+
+  window.AvcrosAuth = {
+    init,
+    signUp,
+    signIn,
+    signOut,
+    getUser,
+    getSession,
+    getProfile,
+    onAuthChange,
+    getClient
+  };
+})();
