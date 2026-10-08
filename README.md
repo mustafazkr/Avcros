@@ -7,7 +7,7 @@ and (in progress) a canvas-based analyst workspace.
 
 ## What this is
 
-Ollkvaj provides:
+Olkvaj provides:
 
 1. **Match reports** — shot maps, xG flow, radar comparisons, lineups,
    substitutions, formations, annotations, and a research-mode keyboard
