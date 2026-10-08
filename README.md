@@ -1,4 +1,4 @@
-# Olkvaj
+# Avcros
 
 Football analytics platform for analysts — match reports, club profiles,
 and (in progress) a canvas-based analyst workspace.
