@@ -9,9 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../_shared/auth.css?v=1">
+  <link rel="stylesheet" href="../_shared/auth.css">
 </head>
-  
 <body>
   <div class="auth-page">
     <header class="auth-header">
@@ -24,21 +23,46 @@
         <p class="auth-subtitle">Join Avcros to save workspaces and share your analysis.</p>
 
         <form class="auth-form" id="signupForm" novalidate>
+
+          <!-- Email -->
           <label class="auth-field">
             <span class="auth-label">Email</span>
             <input type="email" id="email" required autocomplete="email" autofocus>
+            <span class="auth-field-hint" id="emailHint"></span>
           </label>
 
+          <!-- Username -->
           <label class="auth-field">
-            <span class="auth-label">Display name</span>
-            <input type="text" id="displayName" autocomplete="nickname">
-            <span class="auth-hint">Optional. Defaults to your email prefix.</span>
+            <span class="auth-label">Username</span>
+            <div class="auth-input-prefixed">
+              <span class="auth-prefix">@</span>
+              <input type="text" id="username" required autocomplete="username"
+                     minlength="3" maxlength="24" autocapitalize="off" autocorrect="off" spellcheck="false">
+            </div>
+            <span class="auth-field-hint" id="usernameHint">3–24 characters. Letters, numbers, and underscores only.</span>
           </label>
 
+          <!-- Password -->
           <label class="auth-field">
             <span class="auth-label">Password</span>
-            <input type="password" id="password" required autocomplete="new-password" minlength="6">
-            <span class="auth-hint">At least 6 characters.</span>
+            <div class="auth-input-with-toggle">
+              <input type="password" id="password" required autocomplete="new-password" minlength="6">
+              <button type="button" class="auth-password-toggle" id="passwordToggle" aria-label="Show password">
+                <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
+                  <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <span class="auth-field-hint">At least 6 characters.</span>
           </label>
 
           <button type="submit" class="auth-submit" id="submitBtn">Create account</button>
@@ -48,6 +72,12 @@
 
         <p class="auth-alt">
           Already have an account? <a href="signin.html">Sign in</a>
+        </p>
+
+        <p class="auth-terms">
+          By creating an account, you agree to our
+          <a href="../main/terms.html">Terms of Service</a> and
+          <a href="../main/privacy.html">Privacy Policy</a>.
         </p>
       </div>
     </main>
@@ -64,10 +94,16 @@
     (function () {
       const form = document.getElementById('signupForm');
       const emailInput = document.getElementById('email');
-      const nameInput = document.getElementById('displayName');
+      const emailHint = document.getElementById('emailHint');
+      const usernameInput = document.getElementById('username');
+      const usernameHint = document.getElementById('usernameHint');
       const passInput = document.getElementById('password');
+      const passToggle = document.getElementById('passwordToggle');
       const submitBtn = document.getElementById('submitBtn');
       const msg = document.getElementById('authMessage');
+
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const USERNAME_RE = /^[a-zA-Z0-9_]{3,24}$/;
 
       function showMessage(text, type) {
         msg.textContent = text;
@@ -79,16 +115,67 @@
         msg.hidden = true;
       }
 
+      /* --- Live email validation --- */
+      emailInput.addEventListener('input', () => {
+        const val = emailInput.value.trim();
+        if (!val) {
+          emailHint.textContent = '';
+          emailHint.className = 'auth-field-hint';
+          return;
+        }
+        if (EMAIL_RE.test(val)) {
+          emailHint.textContent = '✓ Looks good';
+          emailHint.className = 'auth-field-hint valid';
+        } else {
+          emailHint.textContent = 'Enter a valid email address';
+          emailHint.className = 'auth-field-hint invalid';
+        }
+      });
+
+      /* --- Live username validation --- */
+      usernameInput.addEventListener('input', () => {
+        const val = usernameInput.value.trim();
+        if (!val) {
+          usernameHint.textContent = '3–24 characters. Letters, numbers, and underscores only.';
+          usernameHint.className = 'auth-field-hint';
+          return;
+        }
+        if (USERNAME_RE.test(val)) {
+          usernameHint.textContent = '✓ You will appear as @' + val;
+          usernameHint.className = 'auth-field-hint valid';
+        } else {
+          usernameHint.textContent = '3–24 characters. Letters, numbers, and underscores only.';
+          usernameHint.className = 'auth-field-hint invalid';
+        }
+      });
+
+      /* --- Password visibility toggle --- */
+      passToggle.addEventListener('click', () => {
+        const isHidden = passInput.type === 'password';
+        passInput.type = isHidden ? 'text' : 'password';
+        passToggle.classList.toggle('showing', isHidden);
+        passToggle.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+      });
+
+      /* --- Submit --- */
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         hideMessage();
 
         const email = emailInput.value.trim();
         const password = passInput.value;
-        const displayName = nameInput.value.trim();
+        const username = usernameInput.value.trim();
 
-        if (!email || !password) {
-          showMessage('Email and password are required.', 'error');
+        if (!email || !password || !username) {
+          showMessage('Email, username, and password are all required.', 'error');
+          return;
+        }
+        if (!EMAIL_RE.test(email)) {
+          showMessage('Please enter a valid email address.', 'error');
+          return;
+        }
+        if (!USERNAME_RE.test(username)) {
+          showMessage('Username must be 3–24 characters using only letters, numbers, and underscores.', 'error');
           return;
         }
         if (password.length < 6) {
@@ -100,14 +187,17 @@
         submitBtn.textContent = 'Creating account…';
 
         try {
-          const result = await AvcrosAuth.signUp(email, password, displayName);
+          const result = await AvcrosAuth.signUp(email, password, username);
 
           if (result.user && !result.session) {
-            // Email confirmation is on
             showMessage('Account created. Check your email to confirm, then sign in.', 'success');
             form.reset();
+            emailHint.textContent = '';
+            emailHint.className = 'auth-field-hint';
+            usernameHint.textContent = '3–24 characters. Letters, numbers, and underscores only.';
+            usernameHint.className = 'auth-field-hint';
+            passToggle.classList.remove('showing');
           } else {
-            // Auto-signed in — redirect
             showMessage('Account created. Redirecting…', 'success');
             setTimeout(() => {
               window.location.href = '../main/index.html';
