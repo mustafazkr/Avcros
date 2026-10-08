@@ -186,3 +186,100 @@ body {
   .auth-card { padding: 32px 24px 24px; }
   .auth-footer { padding: 16px 20px; }
 }
+
+/* ============================================================
+   Signup form enhancements — email hint, @username, password toggle
+   ============================================================ */
+
+/* Field hints (email confirmation, username rules) */
+.auth-field-hint {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  min-height: 1.05em;
+  transition: color 0.15s ease;
+}
+.auth-field-hint.valid { color: #16a34a; }
+.auth-field-hint.invalid { color: #dc2626; }
+
+/* @-prefixed input (username) */
+.auth-input-prefixed {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  transition: border-color 0.15s ease;
+}
+.auth-input-prefixed:focus-within { border-color: var(--btn-black); }
+.auth-prefix {
+  padding: 12px 0 12px 14px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 500;
+  user-select: none;
+  flex-shrink: 0;
+}
+.auth-input-prefixed input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 12px 14px 12px 2px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  outline: none;
+  min-width: 0;
+}
+
+/* Password input with eye toggle */
+.auth-input-with-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.auth-input-with-toggle input {
+  width: 100%;
+  padding-right: 46px;
+}
+.auth-password-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+  padding: 0;
+  font-family: inherit;
+}
+.auth-password-toggle:hover { color: var(--text-main); }
+.auth-password-toggle svg { width: 18px; height: 18px; display: block; }
+.auth-password-toggle .icon-eye-off { display: none; }
+.auth-password-toggle.showing .icon-eye { display: none; }
+.auth-password-toggle.showing .icon-eye-off { display: block; }
+
+/* Terms line under "Already have an account?" */
+.auth-terms {
+  margin-top: 16px;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  text-align: center;
+}
+.auth-terms a {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+}
+.auth-terms a:hover { opacity: 0.7; }
