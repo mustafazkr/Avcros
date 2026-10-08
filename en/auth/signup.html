@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign up — Avcros</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="../_shared/auth.css">
 </head>
 <body>
@@ -22,16 +20,34 @@
         <h1 class="auth-title">Create account</h1>
         <p class="auth-subtitle">Join Avcros to save workspaces and share your analysis.</p>
 
+        <div class="auth-oauth-row">
+          <button type="button" class="auth-oauth-btn" id="googleBtn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span>Google</span>
+          </button>
+          <button type="button" class="auth-oauth-btn" id="appleBtn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+            </svg>
+            <span>Apple</span>
+          </button>
+        </div>
+
+        <div class="auth-divider">or</div>
+
         <form class="auth-form" id="signupForm" novalidate>
 
-          <!-- Email -->
           <label class="auth-field">
             <span class="auth-label">Email</span>
-            <input type="email" id="email" required autocomplete="email" autofocus>
+            <input type="email" id="email" required autocomplete="email">
             <span class="auth-field-hint" id="emailHint"></span>
           </label>
 
-          <!-- Username -->
           <label class="auth-field">
             <span class="auth-label">Username</span>
             <div class="auth-input-prefixed">
@@ -42,19 +58,18 @@
             <span class="auth-field-hint" id="usernameHint">3–24 characters. Letters, numbers, and underscores only.</span>
           </label>
 
-          <!-- Password -->
           <label class="auth-field">
             <span class="auth-label">Password</span>
             <div class="auth-input-with-toggle">
               <input type="password" id="password" required autocomplete="new-password" minlength="6">
               <button type="button" class="auth-password-toggle" id="passwordToggle" aria-label="Show password">
                 <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                   <circle cx="12" cy="12" r="3"></circle>
                 </svg>
                 <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
                   <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
                   <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"></path>
@@ -62,7 +77,12 @@
                 </svg>
               </button>
             </div>
-            <span class="auth-field-hint">At least 6 characters.</span>
+            <div class="auth-strength" id="strengthMeter" data-level="0">
+              <div class="auth-strength-bar"></div>
+              <div class="auth-strength-bar"></div>
+              <div class="auth-strength-bar"></div>
+            </div>
+            <span class="auth-strength-label" id="strengthLabel" data-level="0"></span>
           </label>
 
           <button type="submit" class="auth-submit" id="submitBtn">Create account</button>
@@ -99,23 +119,25 @@
       const usernameHint = document.getElementById('usernameHint');
       const passInput = document.getElementById('password');
       const passToggle = document.getElementById('passwordToggle');
+      const strengthMeter = document.getElementById('strengthMeter');
+      const strengthLabel = document.getElementById('strengthLabel');
       const submitBtn = document.getElementById('submitBtn');
       const msg = document.getElementById('authMessage');
 
       const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const USERNAME_RE = /^[a-zA-Z0-9_]{3,24}$/;
 
+      let usernameAvailable = false;
+      let usernameCheckTimer = null;
+
       function showMessage(text, type) {
         msg.textContent = text;
         msg.className = 'auth-message ' + (type || '');
         msg.hidden = false;
       }
+      function hideMessage() { msg.hidden = true; }
 
-      function hideMessage() {
-        msg.hidden = true;
-      }
-
-      /* --- Live email validation --- */
+      /* ---------- Email validation ---------- */
       emailInput.addEventListener('input', () => {
         const val = emailInput.value.trim();
         if (!val) {
@@ -132,24 +154,46 @@
         }
       });
 
-      /* --- Live username validation --- */
+      /* ---------- Username validation + availability ---------- */
       usernameInput.addEventListener('input', () => {
+        usernameAvailable = false;
+        clearTimeout(usernameCheckTimer);
+
         const val = usernameInput.value.trim();
         if (!val) {
           usernameHint.textContent = '3–24 characters. Letters, numbers, and underscores only.';
           usernameHint.className = 'auth-field-hint';
           return;
         }
-        if (USERNAME_RE.test(val)) {
-          usernameHint.textContent = '✓ You will appear as @' + val;
-          usernameHint.className = 'auth-field-hint valid';
-        } else {
+        if (!USERNAME_RE.test(val)) {
           usernameHint.textContent = '3–24 characters. Letters, numbers, and underscores only.';
           usernameHint.className = 'auth-field-hint invalid';
+          return;
         }
+
+        usernameHint.textContent = 'Checking availability…';
+        usernameHint.className = 'auth-field-hint';
+
+        usernameCheckTimer = setTimeout(async () => {
+          try {
+            const available = await AvcrosAuth.checkUsernameAvailable(val);
+            if (usernameInput.value.trim() !== val) return; // stale
+            if (available) {
+              usernameAvailable = true;
+              usernameHint.textContent = '✓ @' + val + ' is available';
+              usernameHint.className = 'auth-field-hint valid';
+            } else {
+              usernameHint.textContent = '✗ @' + val + ' is taken';
+              usernameHint.className = 'auth-field-hint invalid';
+            }
+          } catch (e) {
+            usernameHint.textContent = 'Could not check availability';
+            usernameHint.className = 'auth-field-hint';
+          }
+        }, 400);
       });
 
-      /* --- Password visibility toggle --- */
+      /* ---------- Password visibility ---------- */
       passToggle.addEventListener('click', () => {
         const isHidden = passInput.type === 'password';
         passInput.type = isHidden ? 'text' : 'password';
@@ -157,7 +201,54 @@
         passToggle.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
       });
 
-      /* --- Submit --- */
+      /* ---------- Password strength ---------- */
+      passInput.addEventListener('input', () => {
+        const pw = passInput.value;
+        if (!pw) {
+          strengthMeter.setAttribute('data-level', '0');
+          strengthLabel.setAttribute('data-level', '0');
+          strengthLabel.textContent = '';
+          return;
+        }
+        let score = 0;
+        if (pw.length >= 6) score++;
+        if (pw.length >= 10) score++;
+        if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw)) score++;
+        if (/[^a-zA-Z0-9]/.test(pw)) score++;
+
+        let level = 1, label = 'Weak';
+        if (score >= 4) { level = 3; label = 'Strong'; }
+        else if (score >= 2) { level = 2; label = 'Fair'; }
+
+        strengthMeter.setAttribute('data-level', String(level));
+        strengthLabel.setAttribute('data-level', String(level));
+        strengthLabel.textContent = label;
+      });
+
+      /* ---------- OAuth ---------- */
+      document.getElementById('googleBtn').addEventListener('click', async () => {
+        try {
+          const redirect = new URLSearchParams(location.search).get('redirect')
+            || '../main/index.html';
+          await AvcrosAuth.signInWithOAuth('google',
+            new URL(redirect, location.href).href);
+        } catch (err) {
+          showMessage(err.message || 'Google sign-in failed.', 'error');
+        }
+      });
+      document.getElementById('appleBtn').addEventListener('click', async () => {
+        try {
+          const redirect = new URLSearchParams(location.search).get('redirect')
+            || '../main/index.html';
+          await AvcrosAuth.signInWithOAuth('apple',
+            new URL(redirect, location.href).href);
+        } catch (err) {
+          showMessage(err.message || 'Apple sign-in failed.', 'error');
+        }
+      });
+
+      /* ---------- Submit ---------- */
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         hideMessage();
@@ -178,6 +269,10 @@
           showMessage('Username must be 3–24 characters using only letters, numbers, and underscores.', 'error');
           return;
         }
+        if (!usernameAvailable) {
+          showMessage('Please wait for the username availability check to finish.', 'error');
+          return;
+        }
         if (password.length < 6) {
           showMessage('Password must be at least 6 characters.', 'error');
           return;
@@ -188,20 +283,20 @@
 
         try {
           const result = await AvcrosAuth.signUp(email, password, username);
-
           if (result.user && !result.session) {
             showMessage('Account created. Check your email to confirm, then sign in.', 'success');
             form.reset();
             emailHint.textContent = '';
-            emailHint.className = 'auth-field-hint';
             usernameHint.textContent = '3–24 characters. Letters, numbers, and underscores only.';
-            usernameHint.className = 'auth-field-hint';
-            passToggle.classList.remove('showing');
+            strengthMeter.setAttribute('data-level', '0');
+            strengthLabel.textContent = '';
           } else {
             showMessage('Account created. Redirecting…', 'success');
-            setTimeout(() => {
-              window.location.href = '../main/index.html';
-            }, 700);
+            const redirect = new URLSearchParams(location.search).get('redirect');
+            const dest = redirect
+              ? new URL(redirect, location.href).href
+              : '../main/index.html';
+            setTimeout(() => { window.location.href = dest; }, 700);
           }
         } catch (err) {
           showMessage(err.message || 'Something went wrong. Try again.', 'error');
