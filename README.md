@@ -3,11 +3,11 @@
 Football analytics platform for analysts — match reports, club profiles,
 and (in progress) a canvas-based analyst workspace.
 
-**Live:** https://mustafazkr.github.io/olkvaj/
+**Live:** https://mustafazkr.github.io/avcros/
 
 ## What this is
 
-Olkvaj provides:
+Avcros provides:
 
 1. **Match reports** — shot maps, xG flow, radar comparisons, lineups,
    substitutions, formations, annotations, and a research-mode keyboard
@@ -37,7 +37,7 @@ Pre-launch. Static site works. Backend not started.
 
 ## Repo structure
 
-olkvaj/
+avcros/
 ├── README.md this file
 ├── index.html redirect to en/main (for GitHub Pages)
 ├── docs/ project documentation
