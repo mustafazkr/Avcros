@@ -1,0 +1,149 @@
+/* Avcros — Auth-aware site header
+   Adds the user menu dropdown. The base header styles
+   (layout, brand, nav) stay inline in each page's <style>. */
+
+.site-header {
+  /* The header element itself is already styled by the page. */
+}
+
+/* ---------- Signed-out state ---------- */
+/* .login-link already exists in each page — no new styles needed. */
+
+/* ---------- Signed-in user button ---------- */
+.header-user {
+  position: relative;
+  display: inline-flex;
+}
+
+.header-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px 5px 5px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  line-height: 1;
+}
+.header-user-btn:hover {
+  background: var(--hover-bg);
+  border-color: var(--text-main);
+}
+.header-user-btn[aria-expanded="true"] {
+  background: var(--hover-bg);
+  border-color: var(--text-main);
+}
+
+.header-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--btn-black);
+  color: var(--btn-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.header-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-user-chevron {
+  width: 12px;
+  height: 12px;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.header-user-btn[aria-expanded="true"] .header-user-chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- Dropdown ---------- */
+.header-user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  animation: headerDropdownIn 0.15s ease forwards;
+}
+body.dark-theme .header-user-dropdown {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+.header-user-dropdown[hidden] { display: none; }
+
+@keyframes headerDropdownIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header-user-dropdown-head {
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 6px;
+}
+.header-user-dropdown-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.header-user-dropdown-email {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-user-dropdown-item {
+  display: block;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-main);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+.header-user-dropdown-item:hover {
+  background: var(--hover-bg);
+}
+
+.header-user-signout {
+  color: var(--warning-red);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .header-user-name { display: none; }
+  .header-user-btn { padding: 4px; }
+  .header-user-dropdown { min-width: 200px; }
+}
