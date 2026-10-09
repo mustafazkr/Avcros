@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Olkvaj — Every Player. Every Sport.</title>
+  <title>Avcros — Every Player. Every Sport.</title>
 
   <!-- Favicon: light mode → dark favicon | dark mode → light favicon -->
   <link rel="icon" href="../images/branding/olkvaj-dark.png"
@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../_shared/site-header.css">
 
   <style>
     :root {
@@ -43,34 +45,30 @@
       --dropdown-active-bg: #f5f5f5;
     }
 
-    /* Dark theme — driven by the OS/browser preference so the site theme
-       and the favicon (both keyed on prefers-color-scheme) stay in sync. */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-color: #0a0a0a;
-        --surface: #141414;
-        --text-main: #f5f5f5;
-        --text-muted: #8a8a8a;
-        --border-color: #262626;
-        --btn-black: #ffffff;
-        --btn-white: #1a1a1a;
-        --hover-bg: #1f1f1f;
-        --warning-red: #f87171;
+    body.dark-theme {
+      --bg-color: #0a0a0a;
+      --surface: #141414;
+      --text-main: #f5f5f5;
+      --text-muted: #8a8a8a;
+      --border-color: #262626;
+      --btn-black: #ffffff;
+      --btn-white: #1a1a1a;
+      --hover-bg: #1f1f1f;
+      --warning-red: #f87171;
 
-        --light-bg: #141414;
-        --light-text: #f5f5f5;
-        --light-muted: #8a8a8a;
-        --light-border: #262626;
-        --light-surface: #1a1a1a;
+      --light-bg: #141414;
+      --light-text: #f5f5f5;
+      --light-muted: #8a8a8a;
+      --light-border: #262626;
+      --light-surface: #1a1a1a;
 
-        --footer-bg: #0f0f0f;
-        --footer-bottom-border: #262626;
-        --footer-label: #6b7280;
-        --placeholder-color: #6b7280;
-        --mockup-gradient: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
-        --flag-border: #f5f5f5;
-        --dropdown-active-bg: #1f1f1f;
-      }
+      --footer-bg: #0f0f0f;
+      --footer-bottom-border: #262626;
+      --footer-label: #6b7280;
+      --placeholder-color: #6b7280;
+      --mockup-gradient: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+      --flag-border: #f5f5f5;
+      --dropdown-active-bg: #1f1f1f;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -779,36 +777,13 @@
 <body>
 
   <div class="container">
-    <header>
-      <div class="header-left">
-        <a href="index.html" class="brand" aria-label="Olkvaj home">
-          <picture>
-            <!-- Dark mode → light-colored logo on dark background -->
-            <source srcset="../images/branding/olkvaj-light.png"
-                    media="(prefers-color-scheme: dark)">
-            <!-- Light mode (default) → dark-colored logo on light background -->
-            <img src="../images/branding/olkvaj-dark.png"
-                 alt="Olkvaj"
-                 class="brand-logo">
-          </picture>
-        </a>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="#">About</a>
-          <a href="settings.html">Settings</a>
-        </nav>
-      </div>
-      <div class="header-actions">
-        <a href="#" class="login-link">Log in</a>
-        <a href="../sports/football/profiles/players/" class="btn btn-primary">Browse Players</a>
-      </div>
-    </header>
+    <div id="site-header"></div>
 
     <!-- HERO SECTION -->
     <section class="hero">
       <div class="hero-content">
         <h1>The Standard for<br>Sports Data <span class="accent">&amp; Analytics</span></h1>
-        <p>Olkvaj is a detailed, structured archive of athletes across every sport — from career timelines to season stats, trophies, positions, and more.</p>
+        <p>Avcros is a detailed, structured archive of athletes across every sport — from career timelines to season stats, trophies, positions, and more.</p>
         <div class="hero-buttons">
           <a href="../sports/football/profiles/players/" class="btn btn-primary">Explore Players</a>
           <a href="#" class="btn btn-secondary">About the Project</a>
@@ -991,7 +966,6 @@
 
       <div class="footer-grid">
 
-        <!-- Column 1: Heading + CTA -->
         <div class="footer-col">
           <h2 class="footer-heading">Providing Detailed<br>Analytics</h2>
           <a href="mailto:olkvajdata@gmail.com" class="footer-cta">
@@ -1006,7 +980,6 @@
           </a>
         </div>
 
-        <!-- Column 2: Contact info -->
         <div class="footer-col">
           <div class="footer-block">
             <span class="footer-block-label">Contact Mail</span>
@@ -1018,7 +991,6 @@
           </div>
         </div>
 
-        <!-- Column 3: Menu -->
         <div class="footer-col">
           <span class="footer-col-label">Menu</span>
           <div class="footer-col-links">
@@ -1028,7 +1000,6 @@
           </div>
         </div>
 
-        <!-- Column 4: Social (icon-only, stacked) -->
         <div class="footer-col">
           <span class="footer-col-label">Social</span>
           <div class="footer-socials">
@@ -1066,7 +1037,6 @@
 
       </div>
 
-      <!-- Bottom bar -->
       <div class="footer-bottom">
         <div class="footer-bottom-left">
           <a href="privacy.html">Privacy Policy</a>
@@ -1074,12 +1044,19 @@
           <a href="terms.html">Terms of Service</a>
         </div>
         <div class="footer-bottom-right">
-          2026 Olkvaj. All rights reserved.
+          2026 Avcros. All rights reserved.
         </div>
       </div>
 
     </div>
   </footer>
+
+  <script src="../_shared/supabase-config.js"></script>
+  <script src="../_shared/auth.js"></script>
+  <script src="../_shared/site-header.js"></script>
+  <script>
+    AvcrosHeader.mount('site-header', { base: '../' });
+  </script>
 
 </body>
 </html>
