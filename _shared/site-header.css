@@ -1,15 +1,7 @@
 /* Avcros — Auth-aware site header
-   Adds the user menu dropdown. The base header styles
-   (layout, brand, nav) stay inline in each page's <style>. */
+   Adds the user menu dropdown. Base header styles (layout, brand, nav)
+   stay inline in each page's <style>. */
 
-.site-header {
-  /* The header element itself is already styled by the page. */
-}
-
-/* ---------- Signed-out state ---------- */
-/* .login-link already exists in each page — no new styles needed. */
-
-/* ---------- Signed-in user button ---------- */
 .header-user {
   position: relative;
   display: inline-flex;
@@ -73,7 +65,6 @@
   transform: rotate(180deg);
 }
 
-/* ---------- Dropdown ---------- */
 .header-user-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -141,7 +132,6 @@ body.dark-theme .header-user-dropdown {
   color: var(--warning-red);
 }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .header-user-name { display: none; }
   .header-user-btn { padding: 4px; }
