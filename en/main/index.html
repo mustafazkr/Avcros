@@ -19,26 +19,21 @@
 
   <style>
     :root {
-      /* Core surfaces */
       --bg-color: #fafafa;
       --surface: #ffffff;
       --surface-2: #f5f5f5;
 
-      /* Text */
       --text-main: #171717;
       --text-muted: #666666;
       --text-3: #999999;
 
-      /* Borders */
       --border-color: #e5e5e5;
       --border-hover: #d4d4d4;
 
-      /* Buttons */
       --btn-black: #000000;
       --btn-white: #ffffff;
       --hover-bg: #f5f5f5;
 
-      /* Green accent */
       --green: #3ecf8e;
       --green-hover: #24b47e;
       --green-tint: rgba(62, 207, 142, 0.10);
@@ -46,7 +41,6 @@
 
       --warning-red: #dc2626;
 
-      /* Legacy tokens (clubs + footer) */
       --light-bg: #ffffff;
       --light-text: #171717;
       --light-muted: #6b7280;
@@ -122,7 +116,6 @@
       outline-offset: 2px;
     }
 
-    /* --- LAYOUT --- */
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -130,7 +123,7 @@
       width: 100%;
     }
 
-    /* --- HEADER (rendered by site-header.js) --- */
+    /* --- HEADER --- */
     header {
       display: flex;
       justify-content: space-between;
@@ -275,7 +268,6 @@
       letter-spacing: 1.5px;
     }
 
-    /* Hero Visual Mockup */
     .hero-visual {
       position: relative;
       height: 480px;
@@ -331,6 +323,66 @@
       background: var(--dropdown-active-bg);
       color: var(--text-main);
       font-weight: 500;
+    }
+
+    /* --- DATABASE STATS --- */
+    .db-stats {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: center;
+    }
+
+    .db-stats-inner {
+      width: 100%;
+      max-width: 600px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: var(--surface);
+      border: 1px solid var(--border-color);
+    }
+
+    .db-stat {
+      padding: 32px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-right: 1px solid var(--border-color);
+      text-align: center;
+      transition: background 0.15s ease;
+    }
+
+    .db-stat:last-child { border-right: none; }
+    .db-stat:hover { background: var(--surface-2); }
+
+    .db-stat-value {
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--text-main);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .db-stat-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .db-stat-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      display: inline-block;
+      flex-shrink: 0;
     }
 
     /* --- SEARCH SECTION --- */
@@ -783,6 +835,9 @@
       .header-actions { width: 100%; justify-content: space-between; }
       .hero h1 { font-size: 2.5rem; }
       .search-section { padding: 40px 0; }
+      .db-stats { padding: 36px 0; }
+      .db-stat { padding: 24px 12px; }
+      .db-stat-value { font-size: 2rem; }
       .footer-inner { padding: 3rem 20px 1.5rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 32px; padding-bottom: 2rem; }
       .footer-heading { font-size: 1.5rem; }
@@ -791,13 +846,16 @@
 
     @media (max-width: 500px) {
       .clubs-grid { grid-template-columns: repeat(2, 1fr); }
+      .db-stat { padding: 20px 6px; gap: 6px; }
+      .db-stat-value { font-size: 1.65rem; }
+      .db-stat-label { font-size: 0.58rem; letter-spacing: 0.8px; gap: 4px; }
+      .db-stat-dot { width: 4px; height: 4px; }
     }
   </style>
 </head>
 <body>
 
   <script>
-    // Default theme: dark. Respects saved preference if user set one.
     (function () {
       var theme = localStorage.getItem('olkvaj_theme') || 'dark';
       if (theme === 'dark') document.body.classList.add('dark-theme');
@@ -831,6 +889,24 @@
           <div class="dropdown-item"><span>🏏</span> Cricket</div>
           <div class="dropdown-item"><span>🏀</span> Basketball</div>
           <div class="dropdown-item"><span>🎾</span> Tennis</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATABASE STATS -->
+    <section class="db-stats">
+      <div class="db-stats-inner">
+        <div class="db-stat">
+          <div class="db-stat-value">0</div>
+          <div class="db-stat-label"><span class="db-stat-dot"></span>Leagues</div>
+        </div>
+        <div class="db-stat">
+          <div class="db-stat-value">1</div>
+          <div class="db-stat-label"><span class="db-stat-dot"></span>Clubs</div>
+        </div>
+        <div class="db-stat">
+          <div class="db-stat-value">1</div>
+          <div class="db-stat-label"><span class="db-stat-dot"></span>Players</div>
         </div>
       </div>
     </section>
