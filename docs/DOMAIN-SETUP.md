@@ -1,5 +1,8 @@
 # Domain Setup — Deferred Task
 
+> **Note:** `<domain>` is a placeholder. Replace every occurrence with your
+> actual purchased domain (e.g. `avcros.com`) when you complete this task.
+
 **Status:** Blocked — waiting to purchase a domain.
 
 **Why this exists:** `*.supabase.co` is blocked by Afghan ISPs. Without
@@ -85,6 +88,3 @@ url: "https://asclssstwqbzfyjcqiine.supabase.co",
 to:
 
 url: "https://api.avcros.com",
-
-> **Note:** `<domain>` is a placeholder. Replace every occurrence with your
-> actual purchased domain (e.g. `avcros.com`) when you complete this task.
