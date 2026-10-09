@@ -1,21 +1,6 @@
 // Avcros — Auth-aware site header
-//
 // Renders the site header with a signed-in / signed-out state.
-// Depends on AvcrosAuth (auth.js) and the page already including
-// supabase-config.js before this file.
-//
-// Usage:
-//   <div id="site-header"></div>
-//   ...
-//   <script src="../_shared/supabase-config.js"></script>
-//   <script src="../_shared/auth.js"></script>
-//   <script src="../_shared/site-header.js"></script>
-//   <script>AvcrosHeader.mount('site-header', { base: '../' });</script>
-//
-// `base` is the relative path from the current page back to the `en/` folder.
-//   en/main/index.html                    →  '../'
-//   en/auth/signup.html                   →  '../'
-//   en/sports/football/profiles/clubs/... →  '../../../../'
+// Requires supabase-config.js and auth.js to be loaded first.
 
 (function () {
   'use strict';
@@ -48,8 +33,6 @@
       ? state.config.base + 'images/branding/olkvaj-light.png'
       : state.config.base + 'images/branding/olkvaj-dark.png';
   }
-
-  /* ---------- Fragments ---------- */
 
   function signedOutSlot() {
     return `<a href="${state.config.base}auth/signin.html" class="login-link">Log in</a>`;
@@ -90,14 +73,12 @@
     `;
   }
 
-  /* ---------- Render ---------- */
-
   function renderHeader(user) {
     const cfg = state.config;
     const authSlot = user ? signedInSlot(user) : signedOutSlot();
 
     state.container.innerHTML = `
-      <header class="site-header">
+      <header>
         <div class="header-left">
           <a href="${cfg.base}main/index.html" class="brand" aria-label="Avcros home">
             <img src="${logoPath()}" alt="Avcros" class="brand-logo" data-brand-logo>
@@ -121,8 +102,6 @@
     wireSignOut();
     watchTheme();
   }
-
-  /* ---------- Interactions ---------- */
 
   function wireDropdown() {
     const btn = state.container.querySelector('.header-user-btn');
@@ -178,8 +157,6 @@
     });
   }
 
-  /* ---------- Refresh from auth state ---------- */
-
   async function refresh() {
     if (!state.container) return;
     try {
@@ -193,12 +170,9 @@
         state.currentUser = isNow;
       }
     } catch (e) {
-      // Network failure — if we were showing a signed-in state, drop it
       if (state.currentUser) renderHeader(null);
     }
   }
-
-  /* ---------- Public API ---------- */
 
   async function mount(mountId, opts) {
     const id = mountId || 'site-header';
@@ -211,18 +185,13 @@
     state.config = Object.assign({ base: './' }, opts || {});
     state.container = container;
 
-    // Render signed-out state instantly (no network needed)
     renderHeader(null);
 
-    // Then check the actual auth state
     try {
       const user = await AvcrosAuth.getUser();
       if (user) renderHeader(user);
-    } catch (e) {
-      // Network failure — stay signed out visually
-    }
+    } catch (e) { /* network failure — stay signed out */ }
 
-    // React to sign-in / sign-out from other tabs
     try {
       if (AvcrosAuth.onAuthChange) {
         await AvcrosAuth.onAuthChange((event) => {
