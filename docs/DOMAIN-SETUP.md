@@ -85,3 +85,6 @@ url: "https://asclssstwqbzfyjcqiine.supabase.co",
 to:
 
 url: "https://api.avcros.com",
+
+> **Note:** `<domain>` is a placeholder. Replace every occurrence with your
+> actual purchased domain (e.g. `avcros.com`) when you complete this task.
