@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Avcros — Every Player. Every Sport.</title>
 
-  <!-- Favicon: light mode → dark favicon | dark mode → light favicon -->
   <link rel="icon" href="../images/branding/olkvaj-dark.png"
         media="(prefers-color-scheme: light)">
   <link rel="icon" href="../images/branding/olkvaj-light.png"
@@ -20,55 +19,85 @@
 
   <style>
     :root {
-      --bg-color: #f9f9f9;
+      /* Core surfaces */
+      --bg-color: #fafafa;
       --surface: #ffffff;
-      --text-main: #111111;
+      --surface-2: #f5f5f5;
+
+      /* Text */
+      --text-main: #171717;
       --text-muted: #666666;
+      --text-3: #999999;
+
+      /* Borders */
       --border-color: #e5e5e5;
+      --border-hover: #d4d4d4;
+
+      /* Buttons */
       --btn-black: #000000;
       --btn-white: #ffffff;
       --hover-bg: #f5f5f5;
+
+      /* Green accent */
+      --green: #3ecf8e;
+      --green-hover: #24b47e;
+      --green-tint: rgba(62, 207, 142, 0.10);
+      --green-glow: rgba(62, 207, 142, 0.22);
+
       --warning-red: #dc2626;
 
+      /* Legacy tokens (clubs + footer) */
       --light-bg: #ffffff;
-      --light-text: #111111;
+      --light-text: #171717;
       --light-muted: #6b7280;
-      --light-border: #e5e7eb;
-      --light-surface: #f9fafb;
+      --light-border: #e5e5e5;
+      --light-surface: #f5f5f5;
 
       --footer-bg: #f5f5f5;
       --footer-bottom-border: #e0e0e0;
       --footer-label: #9ca3af;
-      --placeholder-color: #9ca3af;
+      --placeholder-color: #999999;
       --mockup-gradient: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
       --flag-border: #000000;
       --dropdown-active-bg: #f5f5f5;
     }
 
     body.dark-theme {
-      --bg-color: #0a0a0a;
-      --surface: #141414;
-      --text-main: #f5f5f5;
-      --text-muted: #8a8a8a;
-      --border-color: #262626;
+      --bg-color: #121212;
+      --surface: #1c1c1c;
+      --surface-2: #222222;
+
+      --text-main: #ededed;
+      --text-muted: #a0a0a0;
+      --text-3: #666666;
+
+      --border-color: #2e2e2e;
+      --border-hover: #404040;
+
       --btn-black: #ffffff;
       --btn-white: #1a1a1a;
       --hover-bg: #1f1f1f;
+
+      --green: #3ecf8e;
+      --green-hover: #4fdb9b;
+      --green-tint: rgba(62, 207, 142, 0.12);
+      --green-glow: rgba(62, 207, 142, 0.28);
+
       --warning-red: #f87171;
 
-      --light-bg: #141414;
-      --light-text: #f5f5f5;
-      --light-muted: #8a8a8a;
-      --light-border: #262626;
-      --light-surface: #1a1a1a;
+      --light-bg: #1c1c1c;
+      --light-text: #ededed;
+      --light-muted: #a0a0a0;
+      --light-border: #2e2e2e;
+      --light-surface: #222222;
 
-      --footer-bg: #0f0f0f;
-      --footer-bottom-border: #262626;
-      --footer-label: #6b7280;
-      --placeholder-color: #6b7280;
-      --mockup-gradient: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
-      --flag-border: #f5f5f5;
-      --dropdown-active-bg: #1f1f1f;
+      --footer-bg: #171717;
+      --footer-bottom-border: #2e2e2e;
+      --footer-label: #666666;
+      --placeholder-color: #666666;
+      --mockup-gradient: linear-gradient(135deg, #1c1c1c 0%, #121212 100%);
+      --flag-border: #ededed;
+      --dropdown-active-bg: #222222;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -81,16 +110,19 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       display: flex;
       flex-direction: column;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     *:focus { outline: none; }
-    button:focus { outline: none; }
-    button:focus-visible { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
 
-    /* --- LAYOUT CONTAINER --- */
+    /* --- LAYOUT --- */
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -98,7 +130,7 @@
       width: 100%;
     }
 
-    /* --- HEADER --- */
+    /* --- HEADER (rendered by site-header.js) --- */
     header {
       display: flex;
       justify-content: space-between;
@@ -138,7 +170,7 @@
       color: var(--text-muted);
       font-size: 0.9rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.15s ease;
     }
 
     nav a:hover { color: var(--text-main); }
@@ -155,7 +187,9 @@
       color: var(--text-main);
       font-size: 0.9rem;
       font-weight: 500;
+      transition: color 0.15s ease;
     }
+    .header-actions a.login-link:hover { color: var(--green); }
 
     /* --- BUTTONS --- */
     .btn {
@@ -163,24 +197,23 @@
       align-items: center;
       justify-content: center;
       padding: 10px 20px;
-      border-radius: 0px;
       font-size: 0.9rem;
       font-weight: 500;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
       border: 1px solid transparent;
       font-family: inherit;
-      outline: none;
       white-space: nowrap;
       min-width: 100px;
     }
 
     .btn-primary {
-      background-color: var(--btn-black);
-      color: var(--btn-white);
+      background-color: var(--green);
+      color: #0a0a0a;
+      font-weight: 600;
     }
-    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:hover { background-color: var(--green-hover); }
 
     .btn-secondary {
       background-color: transparent;
@@ -188,11 +221,11 @@
       border: 1px solid var(--border-color);
     }
     .btn-secondary:hover {
-      background: var(--hover-bg);
-      border-color: var(--text-main);
+      background: var(--surface-2);
+      border-color: var(--border-hover);
     }
 
-    /* --- HERO SECTION --- */
+    /* --- HERO --- */
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -204,13 +237,14 @@
 
     .hero h1 {
       font-size: 4rem;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
       margin-bottom: 24px;
       color: var(--text-main);
+      font-weight: 800;
     }
 
-    .hero h1 .accent { color: var(--text-main); }
+    .hero h1 .accent { color: var(--green); }
 
     .hero p {
       font-size: 1.1rem;
@@ -221,25 +255,24 @@
 
     .hero-buttons {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 60px;
+      flex-wrap: wrap;
     }
 
     .trust-logos {
       display: flex;
       align-items: center;
       gap: 32px;
-      opacity: 0.5;
-      filter: grayscale(100%);
       flex-wrap: wrap;
     }
 
     .trust-logos span {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--text-3);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
 
     /* Hero Visual Mockup */
@@ -251,11 +284,13 @@
 
     .mockup-card {
       position: absolute;
-      background: var(--btn-white);
-      border-radius: 12px;
+      background: var(--surface);
       box-shadow: 0 20px 40px rgba(0,0,0,0.06);
       border: 1px solid var(--border-color);
       overflow: hidden;
+    }
+    body.dark-theme .mockup-card {
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
     .mockup-main {
@@ -273,12 +308,14 @@
       top: 120px;
       left: -20px;
       width: 220px;
-      background: var(--btn-white);
-      border-radius: 0px;
+      background: var(--surface);
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border: 1px solid var(--border-color);
       padding: 12px;
       transform: translateZ(50px);
+    }
+    body.dark-theme .mockup-dropdown {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .dropdown-item {
@@ -288,7 +325,6 @@
       padding: 8px 12px;
       font-size: 0.85rem;
       color: var(--text-muted);
-      border-radius: 0px;
     }
 
     .dropdown-item.active {
@@ -315,11 +351,11 @@
     }
 
     .search-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--text-3);
       margin-bottom: 12px;
     }
 
@@ -327,23 +363,22 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: var(--btn-white);
+      background: var(--surface);
       border: 1px solid var(--border-color);
-      border-radius: 0px;
       padding: 14px 24px;
       width: 100%;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .search-box:focus-within {
-      border-color: var(--btn-black);
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-glow);
     }
 
     .search-icon {
       width: 20px;
       height: 20px;
-      color: var(--text-muted);
+      color: var(--text-3);
       flex-shrink: 0;
     }
 
@@ -366,19 +401,14 @@
       margin-top: 12px;
     }
 
-    /* ========================================================= */
-    /* ==== EXISTING SECTIONS (Football) ======================= */
-    /* ========================================================= */
-
+    /* --- CLUBS SECTION --- */
     .clubs-section {
       position: relative;
       z-index: 2;
-      background: var(--light-bg);
-      color: var(--light-text);
+      background: var(--bg-color);
+      color: var(--text-main);
       padding: 3.5rem 2rem 4rem;
-      border-radius: 0;
-      margin-top: 0;
-      border-top: 1px solid var(--light-border);
+      border-top: 1px solid var(--border-color);
     }
 
     .clubs-inner {
@@ -392,12 +422,12 @@
       font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: var(--light-text);
+      color: var(--text-main);
       margin-bottom: 0.5rem;
     }
 
     .clubs-header p {
-      color: var(--light-muted);
+      color: var(--text-muted);
       font-size: 0.9rem;
       max-width: 520px;
     }
@@ -415,17 +445,19 @@
       justify-content: center;
       gap: 0.5rem;
       padding: 1.25rem 0.75rem;
-      background: var(--light-bg);
-      border: 1px solid var(--light-border);
+      background: var(--surface);
+      border: 1px solid var(--border-color);
       text-decoration: none;
-      color: var(--light-text);
-      transition: border-color 0.2s ease, transform 0.1s ease;
+      color: var(--text-main);
+      transition: border-color 0.15s ease, background 0.15s ease;
       aspect-ratio: 1 / 1;
       text-align: center;
     }
 
-    .club-badge:hover { border-color: var(--light-text); }
-    .club-badge:active { transform: scale(0.98); }
+    .club-badge:hover {
+      border-color: var(--green);
+      background: var(--green-tint);
+    }
 
     .club-badge-logo {
       width: 48px;
@@ -441,11 +473,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--light-surface);
-      border: 1px solid var(--light-border);
+      background: var(--surface-2);
+      border: 1px solid var(--border-color);
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--light-muted);
+      color: var(--text-muted);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 0.25rem;
@@ -454,7 +486,7 @@
     .club-badge-name {
       font-size: 0.78rem;
       font-weight: 600;
-      color: var(--light-text);
+      color: var(--text-main);
       line-height: 1.2;
     }
 
@@ -472,7 +504,6 @@
       object-fit: cover;
       display: block;
       border: 1px solid var(--flag-border);
-      border-radius: 1px;
     }
 
     .flag-wrap .flag-tooltip {
@@ -480,13 +511,12 @@
       bottom: calc(100% + 6px);
       left: 50%;
       transform: translateX(-50%) translateY(3px);
-      background: var(--light-text);
-      color: var(--light-bg);
+      background: var(--text-main);
+      color: var(--bg-color);
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.3px;
       padding: 0.25rem 0.5rem;
-      border-radius: 0px;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
@@ -510,20 +540,20 @@
       align-items: center;
       gap: 0.4rem;
       background: transparent;
-      border: 1px solid var(--light-border);
-      color: var(--light-text);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
       text-decoration: none;
       font-family: inherit;
       font-size: 0.82rem;
       font-weight: 500;
       padding: 0.6rem 1.4rem;
-      border-radius: 0px;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
     .btn-more:hover {
-      background: var(--light-surface);
-      border-color: var(--light-text);
+      background: var(--surface-2);
+      border-color: var(--green);
+      color: var(--green);
     }
 
     .btn-more svg { width: 12px; height: 12px; }
@@ -531,20 +561,17 @@
     .last-updated {
       text-align: center;
       font-size: 0.72rem;
-      color: var(--light-muted);
+      color: var(--text-3);
       margin-top: 2rem;
       padding-top: 1.25rem;
-      border-top: 1px solid var(--light-border);
+      border-top: 1px solid var(--border-color);
       font-style: italic;
     }
 
-    /* ========================================================= */
-    /* ==================== FOOTER ============================= */
-    /* ========================================================= */
-
+    /* --- FOOTER --- */
     footer {
       background: var(--footer-bg);
-      border-top: 1px solid var(--light-border);
+      border-top: 1px solid var(--border-color);
       margin-top: auto;
     }
 
@@ -566,7 +593,7 @@
       font-weight: 800;
       line-height: 1.1;
       letter-spacing: -0.02em;
-      color: var(--light-text);
+      color: var(--text-main);
       text-transform: uppercase;
       margin-bottom: 2rem;
       max-width: 340px;
@@ -583,25 +610,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--light-text);
-      color: var(--light-bg);
+      background: var(--green);
+      color: #0a0a0a;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 1.2px;
       text-transform: uppercase;
       padding: 1rem 1.75rem;
-      transition: opacity 0.15s ease;
+      transition: background 0.15s ease;
     }
 
     .footer-cta-arrow {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--light-text);
-      color: var(--light-bg);
+      background: var(--green);
+      color: #0a0a0a;
       width: 48px;
       height: 48px;
-      transition: opacity 0.15s ease;
+      transition: background 0.15s ease;
     }
 
     .footer-cta-arrow svg {
@@ -612,7 +639,7 @@
 
     .footer-cta:hover .footer-cta-main,
     .footer-cta:hover .footer-cta-arrow {
-      opacity: 0.85;
+      background: var(--green-hover);
     }
 
     .footer-block { margin-bottom: 2.5rem; }
@@ -630,13 +657,13 @@
     .footer-block-value {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--light-text);
+      color: var(--text-main);
       line-height: 1.5;
       text-decoration: none;
       display: block;
     }
 
-    a.footer-block-value:hover { opacity: 0.6; }
+    a.footer-block-value:hover { color: var(--green); }
 
     .footer-col-label {
       font-size: 0.72rem;
@@ -656,13 +683,13 @@
     .footer-col-links a {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--light-text);
+      color: var(--text-main);
       text-decoration: none;
-      transition: opacity 0.15s ease;
+      transition: color 0.15s ease;
       width: fit-content;
     }
 
-    .footer-col-links a:hover { opacity: 0.6; }
+    .footer-col-links a:hover { color: var(--green); }
 
     .footer-socials {
       display: flex;
@@ -677,17 +704,17 @@
       justify-content: center;
       width: 36px;
       height: 36px;
-      border: 1px solid var(--light-border);
-      background: var(--light-bg);
-      color: var(--light-text);
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-main);
       text-decoration: none;
       transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
     .footer-social-icon:hover {
-      background: var(--light-text);
-      border-color: var(--light-text);
-      color: var(--light-bg);
+      background: var(--green);
+      border-color: var(--green);
+      color: #0a0a0a;
     }
 
     .footer-social-icon svg {
@@ -722,24 +749,21 @@
       transition: color 0.15s ease;
     }
 
-    .footer-bottom-left a:hover { color: var(--light-text); }
+    .footer-bottom-left a:hover { color: var(--green); }
 
     .footer-bottom-right {
       color: var(--footer-label);
       font-size: 0.78rem;
     }
 
-    /* --- RESPONSIVE DESIGN --- */
+    /* --- RESPONSIVE --- */
     @media (max-width: 1024px) {
       .hero h1 { font-size: 3rem; }
       .hero { grid-template-columns: 1fr; gap: 40px; padding: 60px 0; }
       .hero-visual { height: 400px; }
       .mockup-main { right: 0; }
       .mockup-dropdown { left: 20px; }
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
-      }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
       .footer-heading { font-size: 1.6rem; }
     }
 
@@ -756,17 +780,9 @@
       .hero h1 { font-size: 2.5rem; }
       .search-section { padding: 40px 0; }
       .footer-inner { padding: 3rem 20px 1.5rem; }
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-        padding-bottom: 2rem;
-      }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; padding-bottom: 2rem; }
       .footer-heading { font-size: 1.5rem; }
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
     @media (max-width: 500px) {
@@ -779,7 +795,7 @@
   <div class="container">
     <div id="site-header"></div>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
         <h1>The Standard for<br>Sports Data <span class="accent">&amp; Analytics</span></h1>
@@ -807,7 +823,7 @@
       </div>
     </section>
 
-    <!-- SEARCH SECTION -->
+    <!-- SEARCH -->
     <section class="search-section">
       <div class="search-inner">
         <div class="search-label">Search Database</div>
@@ -829,9 +845,7 @@
     </section>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- ================= FOOTBALL CLUBS ======================== -->
-  <!-- ========================================================= -->
+  <!-- CLUBS -->
   <section class="clubs-section">
     <div class="clubs-inner">
       <div class="clubs-header">
@@ -958,9 +972,7 @@
     </div>
   </section>
 
-  <!-- ========================================================= -->
-  <!-- ===================== FOOTER ============================ -->
-  <!-- ========================================================= -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
 
