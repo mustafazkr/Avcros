@@ -1,6 +1,8 @@
 // Avcros — Auth-aware site header
-// Renders the site header with a signed-in / signed-out state.
-// Requires supabase-config.js and auth.js to be loaded first.
+//
+// Renders the header ONCE, then updates only the auth slot when
+// the signed-in state changes. Uses onAuthStateChange as the single
+// source of truth to avoid race conditions.
 
 (function () {
   'use strict';
@@ -9,7 +11,8 @@
     config: null,
     container: null,
     currentUser: null,
-    themeObserver: null
+    themeObserver: null,
+    authSubscription: null
   };
 
   function esc(s) {
@@ -33,6 +36,8 @@
       ? state.config.base + 'images/branding/olkvaj-light.png'
       : state.config.base + 'images/branding/olkvaj-dark.png';
   }
+
+  /* ---------- Auth slot fragments ---------- */
 
   function signedOutSlot() {
     return `<a href="${state.config.base}auth/signin.html" class="login-link">Log in</a>`;
@@ -73,9 +78,10 @@
     `;
   }
 
-  function renderHeader(user) {
+  /* ---------- Frame: rendered once ---------- */
+
+  function renderFrame() {
     const cfg = state.config;
-    const authSlot = user ? signedInSlot(user) : signedOutSlot();
 
     state.container.innerHTML = `
       <header>
@@ -90,43 +96,65 @@
           </nav>
         </div>
         <div class="header-actions">
-          ${authSlot}
+          <span data-auth-slot>${signedOutSlot()}</span>
           <a href="${cfg.base}sports/football/profiles/players/"
              class="btn btn-primary">Browse Players</a>
         </div>
       </header>
     `;
 
-    state.currentUser = user || null;
-    wireDropdown();
-    wireSignOut();
     watchTheme();
   }
+
+  /* ---------- Auth slot: updated in place ---------- */
+
+  function updateAuthSlot(user) {
+    const slot = state.container.querySelector('[data-auth-slot]');
+    if (!slot) return;
+
+    const was = state.currentUser;
+    const isNow = user || null;
+
+    // Skip if unchanged
+    if (!was && !isNow) return;
+    if (was && isNow && was.id === isNow.id) return;
+
+    slot.innerHTML = isNow ? signedInSlot(isNow) : signedOutSlot();
+    state.currentUser = isNow;
+    wireDropdown();
+    wireSignOut();
+  }
+
+  /* ---------- Interactions ---------- */
 
   function wireDropdown() {
     const btn = state.container.querySelector('.header-user-btn');
     const dropdown = state.container.querySelector('.header-user-dropdown');
     if (!btn || !dropdown) return;
 
-    btn.addEventListener('click', (e) => {
+    // Remove any prior listeners by cloning
+    const freshBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(freshBtn, btn);
+
+    freshBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = !dropdown.hidden;
       dropdown.hidden = isOpen;
-      btn.setAttribute('aria-expanded', String(!isOpen));
+      freshBtn.setAttribute('aria-expanded', String(!isOpen));
     });
 
     document.addEventListener('click', (e) => {
       if (!state.container.contains(e.target)) {
         dropdown.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
+        freshBtn.setAttribute('aria-expanded', 'false');
       }
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !dropdown.hidden) {
         dropdown.hidden = true;
-        btn.setAttribute('aria-expanded', 'false');
-        btn.focus();
+        freshBtn.setAttribute('aria-expanded', 'false');
+        freshBtn.focus();
       }
     });
   }
@@ -138,7 +166,7 @@
       e.preventDefault();
       try {
         await AvcrosAuth.signOut();
-        renderHeader(null);
+        updateAuthSlot(null);
       } catch (err) {
         console.error('[site-header] Sign out failed:', err);
       }
@@ -157,22 +185,7 @@
     });
   }
 
-  async function refresh() {
-    if (!state.container) return;
-    try {
-      const user = await AvcrosAuth.getUser();
-      const was = state.currentUser;
-      const isNow = user || null;
-
-      if ((!was && isNow) || (was && !isNow) || (was && isNow && was.id !== isNow.id)) {
-        renderHeader(isNow);
-      } else if (isNow) {
-        state.currentUser = isNow;
-      }
-    } catch (e) {
-      if (state.currentUser) renderHeader(null);
-    }
-  }
+  /* ---------- Mount ---------- */
 
   async function mount(mountId, opts) {
     const id = mountId || 'site-header';
@@ -185,23 +198,32 @@
     state.config = Object.assign({ base: './' }, opts || {});
     state.container = container;
 
-    renderHeader(null);
+    // 1. Render the frame immediately with signed-out state
+    renderFrame();
 
+    // 2. Read the session from localStorage (no network) and hydrate
     try {
-      const user = await AvcrosAuth.getUser();
-      if (user) renderHeader(user);
-    } catch (e) { /* network failure — stay signed out */ }
-
-    try {
-      if (AvcrosAuth.onAuthChange) {
-        await AvcrosAuth.onAuthChange((event) => {
-          if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
-            refresh();
-          }
-        });
+      const session = await AvcrosAuth.getSession();
+      if (session && session.user) {
+        updateAuthSlot(session.user);
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      // no session or network blocked — stay signed out
+    }
+
+    // 3. Subscribe to auth state as the source of truth
+    try {
+      state.authSubscription = await AvcrosAuth.onAuthChange((event, session) => {
+        if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' ||
+            event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
+          const user = (session && session.user) ? session.user : null;
+          updateAuthSlot(user);
+        }
+      });
+    } catch (e) {
+      // subscription failed — header still works with what we have
+    }
   }
 
-  window.AvcrosHeader = { mount, refresh };
+  window.AvcrosHeader = { mount };
 })();
