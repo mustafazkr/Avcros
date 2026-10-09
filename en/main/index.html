@@ -173,7 +173,7 @@
       transition: color 0.15s ease;
     }
 
-    nav a:hover { color: var(--text-main); }
+    nav a:hover { color: var(--green); }
 
     .header-actions {
       display: flex;
@@ -547,7 +547,7 @@
       font-size: 0.82rem;
       font-weight: 500;
       padding: 0.6rem 1.4rem;
-      transition: background 0.15s ease, border-color 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
     .btn-more:hover {
@@ -661,9 +661,11 @@
       line-height: 1.5;
       text-decoration: none;
       display: block;
+      transition: color 0.15s ease;
     }
 
-    a.footer-block-value:hover { color: var(--green); }
+    a.footer-block-value:hover { color: #ffffff; }
+    body:not(.dark-theme) a.footer-block-value:hover { color: #000000; }
 
     .footer-col-label {
       font-size: 0.72rem;
@@ -689,7 +691,8 @@
       width: fit-content;
     }
 
-    .footer-col-links a:hover { color: var(--green); }
+    .footer-col-links a:hover { color: #ffffff; }
+    body:not(.dark-theme) .footer-col-links a:hover { color: #000000; }
 
     .footer-socials {
       display: flex;
@@ -712,9 +715,9 @@
     }
 
     .footer-social-icon:hover {
-      background: var(--green);
-      border-color: var(--green);
-      color: #0a0a0a;
+      background: var(--text-main);
+      border-color: var(--text-main);
+      color: var(--bg-color);
     }
 
     .footer-social-icon svg {
@@ -749,7 +752,8 @@
       transition: color 0.15s ease;
     }
 
-    .footer-bottom-left a:hover { color: var(--green); }
+    .footer-bottom-left a:hover { color: #ffffff; }
+    body:not(.dark-theme) .footer-bottom-left a:hover { color: #000000; }
 
     .footer-bottom-right {
       color: var(--footer-label);
@@ -792,13 +796,21 @@
 </head>
 <body>
 
+  <script>
+    // Default theme: dark. Respects saved preference if user set one.
+    (function () {
+      var theme = localStorage.getItem('olkvaj_theme') || 'dark';
+      if (theme === 'dark') document.body.classList.add('dark-theme');
+    })();
+  </script>
+
   <div class="container">
     <div id="site-header"></div>
 
     <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
-        <h1>The Standard for<br>Sports Data <span class="accent">&amp; Analytics</span></h1>
+        <h1>The Standard for<br>Sports <span class="accent">Data</span> &amp; <span class="accent">Analytics</span></h1>
         <p>Avcros is a detailed, structured archive of athletes across every sport — from career timelines to season stats, trophies, positions, and more.</p>
         <div class="hero-buttons">
           <a href="../sports/football/profiles/players/" class="btn btn-primary">Explore Players</a>
